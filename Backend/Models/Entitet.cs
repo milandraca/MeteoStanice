@@ -1,8 +1,10 @@
-﻿namespace WebAPI9.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Backend.Models
 {
     public abstract class Entitet
     {
-        public int? Sifra { get; set; }
-
+        [Key]
+        public int Sifra { get; set; }
     }
 }

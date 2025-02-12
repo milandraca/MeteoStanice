@@ -1,10 +1,6 @@
-using Backend;
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 
-internal class Program
-{
-    private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +10,12 @@ internal class Program
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
 
-        // dodati swagger
-        builder.Services.AddSwaggerGen();
+    // dodati swagger
+    builder.Services.AddSwaggerGen();
 
 
-        // dodavanje db contexta
-        builder.Services.AddDbContext<BackendContext>(o =>
+    // dodavanje db contexta
+    builder.Services.AddDbContext<BackendContext>(o =>
         {
             o.UseSqlServer(builder.Configuration.GetConnectionString("BazaContext"));
         });
@@ -48,4 +44,3 @@ internal class Program
 
         app.Run();
     }
-}
