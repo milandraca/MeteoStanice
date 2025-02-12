@@ -1,4 +1,5 @@
 using Backend;
+using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 
 internal class Program
@@ -18,7 +19,7 @@ internal class Program
 
 
         // dodavanje db contexta
-        builder.Services.AddDbContext<BazaContext>(o =>
+        builder.Services.AddDbContext<BackendContext>(o =>
         {
             o.UseSqlServer(builder.Configuration.GetConnectionString("BazaContext"));
         });
