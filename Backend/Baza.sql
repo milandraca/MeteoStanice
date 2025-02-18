@@ -1,13 +1,14 @@
-﻿use master;
-go
-
-drop database if exists weatherstation;
-go
-create database weatherstation collate Croatian_CI_AS;
-go
-use weatherstation;
-go
-
+﻿SELECT name, collation_name FROM sys.databases;
+GO
+ALTER DATABASE db_ab2f7a_weatherstation SET SINGLE_USER WITH
+ROLLBACK IMMEDIATE;
+GO
+ALTER DATABASE db_ab2f7a_weatherstation COLLATE Croatian_CI_AS;
+GO
+ALTER DATABASE db_ab2f7a_weatherstation SET MULTI_USER;
+GO
+SELECT name, collation_name FROM sys.databases;
+GO
 
 create table drzave(
 sifra int not null primary key identity(1,1), -- ovo je primarni kljuc
