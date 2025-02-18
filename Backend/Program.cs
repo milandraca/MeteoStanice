@@ -42,5 +42,10 @@ using Microsoft.EntityFrameworkCore;
 
         app.MapControllers();
 
-        app.Run();
+    app.UseStaticFiles();
+    app.UseDefaultFiles();
+    app.MapFallbackToFile("index.html");
+
+
+    app.Run();
     }
