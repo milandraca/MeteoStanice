@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import DrzavaService from "../../services/DrzavaService"
+import DrzaveService from "../../services/DrzaveService"
 import { Button, Table } from "react-bootstrap";
 import { NumericFormat } from "react-number-format";
 import moment from "moment";
@@ -14,7 +14,7 @@ export default function DrzavePregled(){
     const navigate = useNavigate();
 
     async function dohvatiDrzave(){
-        const odgovor = await DrzavaService.get()
+        const odgovor = await DrzaveService.get()
         setDrzave(odgovor)
     }
 
@@ -43,7 +43,7 @@ export default function DrzavePregled(){
     }
 
     async function brisanjeDrzave(sifra) {
-        const odgovor = await DrzavaService.obrisi(sifra);
+        const odgovor = await DrzaveService.obrisi(sifra);
         if(odgovor.greska){
             alert(odgovor.poruka);
             return;
@@ -55,7 +55,7 @@ export default function DrzavePregled(){
     return(
         <>
         <Link
-        to={RouteNames.DRZAVA_NOVI}
+        to={RouteNames.DRZAVE_NOVI}
         className="btn btn-success siroko"
         >Dodaj novu drzavu</Link>
         <Table striped bordered hover responsive>
@@ -68,7 +68,7 @@ export default function DrzavePregled(){
                 </tr>
             </thead>
             <tbody>
-                {smjerovi && drzave.map((naziv,index)=>(
+                {naziv && naziv.map((naziv,index)=>(
                     <tr key={index}>
                         <td>
                             {naziv.Hrvatska}

@@ -2,7 +2,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import moment from "moment";
-import DrzavaService from "../../services/DrzavaService";
+import DrzaveService from "../../services/DrzaveService";
 import { useEffect, useState } from "react";
 
 
@@ -10,26 +10,26 @@ export default function DrzavePromjena()
 {
 
     const navigate = useNavigate();
-    const [drzava,setDrzava] = useState({});
+    const [drzave,setDrzave] = useState({});
     
     const routeParams = useParams();
 
     async function dohvatiDrzavu(){
-        const odgovor = await DrzavaService.getBySifra(routeParams.drzava)
+        const odgovor = await DrzaveService.getBySifra(routeParams.drzave)
 
-        setDrzava(odgovor)
+        setDrzave(odgovor)
 
     useEffect(()=>{
         dohvatiDrzavu();
     },[])}
 
-    async function promjena(drzava){
-        const odgovor = await DrzavaService.promjena(routeParams.sifra,drzava);
+    async function promjena(drzave){
+        const odgovor = await DrzaveService.promjena(routeParams.sifra,drzave);
         if(odgovor.greska){
             alert(odgovor.poruka)
             return
         }
-        navigate(RouteNames.DRZAVA_PREGLED)
+        navigate(RouteNames.DRZAVE_PREGLED)
     }
 
     function odradiSubmit(e){ // e je event
@@ -53,7 +53,7 @@ export default function DrzavePromjena()
         <Form.Group controlId="naziv">
             <Form.Label>Naziv</Form.Label>
             <Form.Control type="text" name="naziv" required 
-            defaultValue={drzava.naziv}/>
+            defaultValue={drzave.naziv}/>
         </Form.Group>
 
        
@@ -67,7 +67,7 @@ export default function DrzavePromjena()
         <Row>
             <Col xs={6} sm={6} md={3} lg={2} xl={6} xxl={6}>
                 <Link
-                to={RouteNames.DRZAVA_PREGLED}
+                to={RouteNames.DRZAVE_PREGLED}
                 className="btn btn-danger siroko"
                 >Odustani</Link>
             </Col>
