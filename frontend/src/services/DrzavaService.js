@@ -1,3 +1,4 @@
+import SmjeroviPregled from "../pages/drzave/DrzavePregled";
 import { HttpService } from "./HttpService";
 
 
@@ -11,7 +12,7 @@ async function get(){
 }
 
 async function getBySifra(sifra){
-    return await HttpService.get('/Smjer/' + sifra)
+    return await HttpService.get('/Drzava/' + sifra)
     .then((odgovor)=>{
         return odgovor.data;
     })
@@ -19,20 +20,20 @@ async function getBySifra(sifra){
 }
 
 
-async function dodaj(smjer){
-    return HttpService.post('/Smjer',smjerovi)
+async function dodaj(drzave){
+    return HttpService.post('/Drzava',drzave)
     .then(()=>{return {greska: false, poruka: 'Dodano'}})
     .catch(()=>{return {greska: true, poruka:'Problem kod dodavanja'}})
 }
 
-async function promjena(sifra,smjer){
-    return HttpService.put('/Smjer/'+sifra,smjer)
+async function promjena(sifra,drzava){
+    return HttpService.put('/Drzava/'+sifra,drzava)
     .then(()=>{return {greska: false, poruka: 'Promjenjeno'}})
     .catch(()=>{return {greska: true, poruka:'Problem kod promjene'}})
 }
 
 async function obrisi(sifra){
-    return HttpService.delete('/Smjer/'+sifra)
+    return HttpService.delete('/Drzava/'+sifra)
     .then(()=>{return {greska: false, poruka: 'Obrisano'}})
     .catch(()=>{return {greska: true, poruka:'Problem kod brisanja'}})
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import SmjerService from "../../services/SmjerService"
+import DrzavaService from "../../services/DrzavaService"
 import { Button, Table } from "react-bootstrap";
 import { NumericFormat } from "react-number-format";
 import moment from "moment";
@@ -8,19 +8,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 
 
-export default function SmjeroviPregled(){
+export default function DrzavePregled(){
 
-    const[smjerovi, setSmjerovi] = useState();
+    const[drzave, setDrzave] = useState();
     const navigate = useNavigate();
 
-    async function dohvatiSmjerove(){
-        const odgovor = await SmjerService.get()
-        setSmjerovi(odgovor)
+    async function dohvatiDrzave(){
+        const odgovor = await DrzavaService.get()
+        setDrzave(odgovor)
     }
 
     // hooks (kuka) se izvodi prilikom dolaska na stranicu Smjerovi
     useEffect(()=>{
-        dohvatiSmjerove();
+        dohvatiDrzave();
     },[])
 
 
@@ -31,41 +31,33 @@ export default function SmjeroviPregled(){
         return moment.utc(datum).format('DD. MM. YYYY.')
     }
 
-    function vaucer(v){
-        if(v==null) return 'gray'
-        if(v) return 'green'
-        return 'red'
-    }
+    
 
-    function vaucerText(v){
-        if(v==null) return 'Nije definirano'
-        if(v) return 'Vaučer'
-        return 'NIJE vaučer'
-    }
+    
 
     function obrisi(sifra){
         if(!confirm('Sigurno obrisati')){
             return;
         }
-        brisanjeSmjera(sifra);
+        brisanjeDrzave(sifra);
     }
 
-    async function brisanjeSmjera(sifra) {
-        const odgovor = await SmjerService.obrisi(sifra);
+    async function brisanjeDrzave(sifra) {
+        const odgovor = await DrzavaService.obrisi(sifra);
         if(odgovor.greska){
             alert(odgovor.poruka);
             return;
         }
-        dohvatiSmjerove();
+        dohvatiDrzave();
     }
 
 
     return(
         <>
         <Link
-        to={RouteNames.SMJER_NOVI}
+        to={RouteNames.DRZAVA_NOVI}
         className="btn btn-success siroko"
-        >Dodaj novi smjer</Link>
+        >Dodaj novu drzavu</Link>
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
@@ -76,7 +68,7 @@ export default function SmjeroviPregled(){
                 </tr>
             </thead>
             <tbody>
-                {smjerovi && smjerovi.map((naziv,index)=>(
+                {smjerovi && drzave.map((naziv,index)=>(
                     <tr key={index}>
                         <td>
                             {naziv.Hrvatska}
@@ -89,7 +81,7 @@ export default function SmjeroviPregled(){
                         
                         <td>
                             <Button
-                            onClick={()=>navigate(`/smjerovi/${naziv.sifra}`)}
+                            onClick={()=>navigate(`/drzave/${naziv.sifra}`)}
                             >Promjena</Button>
                             &nbsp;&nbsp;&nbsp;
                             <Button
