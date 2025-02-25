@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 // dodavanje db contexta
 builder.Services.AddDbContext<BackendContext>(o => {
-    o.UseSqlServer(builder.Configuration.GetConnectionString("EdunovaContext"));
+    o.UseSqlServer(builder.Configuration.GetConnectionString("BackendContext"));
 });
 
 
