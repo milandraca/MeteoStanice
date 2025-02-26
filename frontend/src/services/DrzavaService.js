@@ -1,4 +1,3 @@
-import DrzavePregled from "../pages/drzave/DrzavePregled";
 import { HttpService } from "./HttpService";
 
 
@@ -20,14 +19,14 @@ async function getBySifra(sifra){
 }
 
 
-async function dodaj(naziv){
-    return HttpService.post('/Drzava',naziv)
+async function dodaj(drzava){
+    return HttpService.post('/Drzava',drzava)
     .then(()=>{return {greska: false, poruka: 'Dodano'}})
     .catch(()=>{return {greska: true, poruka:'Problem kod dodavanja'}})
 }
 
-async function promjena(sifra,naziv){
-    return HttpService.put('/Drzava/'+sifra,naziv)
+async function promjena(sifra,drzava){
+    return HttpService.put('/Drzava/'+sifra,drzava)
     .then(()=>{return {greska: false, poruka: 'Promjenjeno'}})
     .catch(()=>{return {greska: true, poruka:'Problem kod promjene'}})
 }

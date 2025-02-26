@@ -20,9 +20,9 @@ function App() {
         
         <Routes>
           <Route path={RouteNames.HOME} element={<Pocetna />} />
-          <Route path={RouteNames.DRZAVE_PREGLED} element={<DrzavePregled />} />
-          <Route path={RouteNames.DRZAVE_NOVI} element={<DrzaveDodaj />} />
-          <Route path={RouteNames.DRZAVE_PROMJENA} element={<DrzavePromjena />} />
+          <Route path={RouteNames.DRZAVA_PREGLED} element={<DrzavePregled />} />
+          <Route path={RouteNames.DRZAVA_NOVI} element={<DrzaveDodaj />} />
+          <Route path={RouteNames.DRZAVA_PROMJENA} element={<DrzavePromjena />} />
         </Routes>
 
         <hr />

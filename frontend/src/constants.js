@@ -1,9 +1,9 @@
 export const RouteNames={
     HOME: '/',
 
-    DRZAVE_PREGLED: '/drzave',
-    DRZAVE_NOVI: '/drzave/dodaj',
-    DRZAVE_PROMJENA: '/drzave/:sifra'
+    DRZAVA_PREGLED: '/drzava',
+    DRZAVA_NOVI: '/drzava/dodaj',
+    DRZAVA_PROMJENA: '/drzava/:sifra'
 }
 
 export const PRODUKCIJA='https://milandraca-001-site1.jtempurl.com';

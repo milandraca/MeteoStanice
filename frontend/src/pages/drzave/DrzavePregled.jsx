@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import DrzaveService from "../../services/DrzaveService"
+import DrzavaService from "../../services/DrzavaService"
 import { Button, Table } from "react-bootstrap";
 import { NumericFormat } from "react-number-format";
 import moment from "moment";
@@ -14,7 +14,7 @@ export default function DrzavePregled(){
     const navigate = useNavigate();
 
     async function dohvatiDrzave(){
-        const odgovor = await DrzaveService.get()
+        const odgovor = await DrzavaService.get()
         setDrzave(odgovor)
     }
 
@@ -43,7 +43,7 @@ export default function DrzavePregled(){
     }
 
     async function brisanjeDrzave(sifra) {
-        const odgovor = await DrzaveService.obrisi(sifra);
+        const odgovor = await DrzavaService.obrisi(sifra);
         if(odgovor.greska){
             alert(odgovor.poruka);
             return;
@@ -55,7 +55,7 @@ export default function DrzavePregled(){
     return(
         <>
         <Link
-        to={RouteNames.DRZAVE_NOVI}
+        to={RouteNames.DRZAVA_NOVI}
         className="btn btn-success siroko"
         >Dodaj novu drzavu</Link>
         <Table striped bordered hover responsive>
@@ -68,25 +68,25 @@ export default function DrzavePregled(){
                 </tr>
             </thead>
             <tbody>
-                {naziv && naziv.map((naziv,index)=>(
+                {drzave && drzave.map((drzava,index)=>(
                     <tr key={index}>
                         <td>
-                            {naziv.Hrvatska}
+                            {drzava.naziv}
                         </td>
                         <td>
-                            {naziv.Srbija}
+                            {drzava.sifra}
                         </td>
-                      
+                                              
                         
                         
                         <td>
                             <Button
-                            onClick={()=>navigate(`/drzave/${naziv.sifra}`)}
+                            onClick={()=>navigate(`/drzave/${drzava.sifra}`)}
                             >Promjena</Button>
                             &nbsp;&nbsp;&nbsp;
                             <Button
                             variant="danger"
-                            onClick={()=>obrisi(naziv.sifra)}
+                            onClick={()=>obrisi(drzava.sifra)}
                             >Obriši</Button>
                         </td>
                     </tr>
