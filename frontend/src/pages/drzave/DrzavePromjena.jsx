@@ -1,7 +1,6 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RouteNames } from "../../constants";
-import moment from "moment";
 import DrzavaService from "../../services/DrzavaService";
 import { useEffect, useState } from "react";
 
@@ -11,20 +10,22 @@ export default function DrzavePromjena()
 
     const navigate = useNavigate();
     const [drzava,setDrzava] = useState({});
-    const [sifra,setSifra] = useState({});
     
     const routeParams = useParams();
 
     async function dohvatiDrzava(){
         const odgovor = await DrzavaService.getBySifra(routeParams.sifra)
 
-        setDrzave(odgovor)
+        setDrzava(odgovor)
+
+    }
+
 
     useEffect(()=>{
         dohvatiDrzava();
-    },[])}
+    },[])
 
-    async function promjena(drzave){
+    async function promjena(drzava){
         const odgovor = await DrzavaService.promjena(routeParams.sifra,drzava);
         if(odgovor.greska){
             alert(odgovor.poruka)
@@ -48,7 +49,7 @@ export default function DrzavePromjena()
 
     return(
     <>
-    Promjena drzave
+    Promjena države
     <Form onSubmit={odradiSubmit}>
 
         <Form.Group controlId="naziv">

@@ -41,12 +41,6 @@ export default function DrzaveDodaj(){
             <Form.Label>Naziv</Form.Label>
             <Form.Control type="text" name="naziv" required />
         </Form.Group>
-
-        <Form.Group controlId="sifraDrzave">
-            <Form.Label>Šifra</Form.Label>
-            <Form.Control type="number" name="sifraDrzave" step={0.01} />
-        </Form.Group>
-
         
 
         <hr/>

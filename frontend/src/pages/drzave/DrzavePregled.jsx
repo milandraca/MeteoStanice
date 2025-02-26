@@ -81,7 +81,7 @@ export default function DrzavePregled(){
                         
                         <td>
                             <Button
-                            onClick={()=>navigate(`/drzave/${drzava.sifra}`)}
+                            onClick={()=>navigate(`/drzava/${drzava.sifra}`)}
                             >Promjena</Button>
                             &nbsp;&nbsp;&nbsp;
                             <Button
