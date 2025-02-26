@@ -57,7 +57,7 @@ export default function DrzavePregled(){
         <Link
         to={RouteNames.DRZAVA_NOVI}
         className="btn btn-success siroko"
-        >Dodaj novu drzavu</Link>
+        >Dodaj novu državu</Link>
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
