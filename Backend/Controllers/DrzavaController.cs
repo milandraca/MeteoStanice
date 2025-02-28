@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Data;
 using Backend.Models;
+using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -11,110 +12,147 @@ namespace Backend.Controllers
     {
 
 
+        // RUTE
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<DrzavaDTORead>> Get()
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return Ok(_context.Drzave);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-        }
-
-
-        [HttpGet("{sifra:int}")]
-        public IActionResult Get(int sifra)
-        {
-            if (sifra <= 0)
-            {
-                return StatusCode(StatusCodes.Status404NotFound, new {poruka= "Šifra mora biti pozitivan broj" });
+                return BadRequest(new { poruka = ModelState });
             }
             try
             {
-                var drzava = _context.Drzave.Find(sifra);
-                if (drzava == null)
-                {
-                    return NotFound(new { poruka = $"Smjer s šifrom {sifra} ne postoji" });
-                }
-                return Ok(drzava);
+                return Ok(_mapper.Map<List<DrzavaDTORead>>(_context.Drzave));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
+
         }
 
 
+        [HttpGet]
+        [Route("{sifra:int}")]
+        public ActionResult<DrzavaDTOInsertUpdate> GetBySifra(int sifra)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            Drzava? e;
+            try
+            {
+                e = _context.Drzave.Find(sifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (e == null)
+            {
+                return NotFound(new { poruka = "Drzava ne postoji u bazi" });
+            }
+
+            return Ok(_mapper.Map<DrzavaDTOInsertUpdate>(e));
+        }
 
         [HttpPost]
-        public IActionResult Post(Drzava drzava)
+        public IActionResult Post(DrzavaDTOInsertUpdate dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                _context.Drzave.Add(drzava);
+                var e = _mapper.Map<Drzava>(dto);
+                _context.Drzave.Add(e);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, drzava);
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<DrzavaDTORead>(e));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
+
+
+
         }
 
-
-        [HttpPut("{sifra:int}")]
-        public IActionResult Put(int sifra, Drzava drzava)
+        [HttpPut]
+        [Route("{sifra:int}")]
+        [Produces("application/json")]
+        public IActionResult Put(int sifra, DrzavaDTOInsertUpdate dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-
-                var drzavaBaza = _context.Drzave.Find(sifra);
-                if (drzavaBaza == null)
+                Drzava? e;
+                try
                 {
-                    return NotFound(new { poruka = $"Drzava s šifrom {sifra} ne postoji" });
+                    e = _context.Drzave.Find(sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Drzava ne postoji u bazi" });
                 }
 
-                // rucni mapping - kasnije automatika
-                drzavaBaza.Naziv = drzava.Naziv;
-               
+                e = _mapper.Map(dto, e);
 
-                _context.Drzave.Update(drzavaBaza);
+                _context.Drzave.Update(e);
                 _context.SaveChanges();
-                return Ok(drzavaBaza);
+
+                return Ok(new { poruka = "Uspješno promjenjeno" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
+
         }
 
-
-        [HttpDelete("{sifra:int}")]
+        [HttpDelete]
+        [Route("{sifra:int}")]
+        [Produces("application/json")]
         public IActionResult Delete(int sifra)
         {
-            if (sifra <= 0)
+            if (!ModelState.IsValid)
             {
-                return StatusCode(StatusCodes.Status404NotFound, new { poruka = "Šifra mora biti pozitivan broj" });
+                return BadRequest(new { poruka = ModelState });
             }
             try
             {
-                var drzava = _context.Drzave.Find(sifra);
-                if (drzava == null)
+                Drzava? e;
+                try
                 {
-                    return NotFound(new { poruka = $"Smjer s šifrom {sifra} ne postoji" });
+                    e = _context.Drzave.Find(sifra);
                 }
-                _context.Drzave.Remove(drzava);
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound("Drzava ne postoji u bazi");
+                }
+                _context.Drzave.Remove(e);
                 _context.SaveChanges();
-                return NoContent();
+                return Ok(new { poruka = "Uspješno obrisano" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
         }
+
 
 
     }
