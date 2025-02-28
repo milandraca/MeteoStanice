@@ -14,5 +14,6 @@ namespace Backend.Data
 
 
         public DbSet<Drzava> Drzave { get; set; }
+        public object Grupe { get; internal set; }
     }
 }
