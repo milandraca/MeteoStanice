@@ -1,4 +1,5 @@
-﻿using Backend.Data;
+﻿using AutoMapper;
+using Backend.Data;
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,18 +7,9 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class DrzavaController : ControllerBase
+    public class DrzavaController(BackendContext context, IMapper mapper) : BackendController(context, mapper)
     {
-        // koristimo dependency injection
-        // 1. definiramo privatno svojstvo
-        private readonly BackendContext _context;
 
-
-        // 2. u konstruktoru postavljamo vrijednost
-        public DrzavaController(BackendContext context)
-        {
-            _context = context;
-        }
 
         [HttpGet]
         public IActionResult Get()
