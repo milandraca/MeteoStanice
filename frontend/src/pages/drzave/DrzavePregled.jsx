@@ -13,9 +13,14 @@ export default function DrzavePregled(){
     const[drzave, setDrzave] = useState();
     const navigate = useNavigate();
 
-    async function dohvatiDrzave(){
-        const odgovor = await DrzavaService.get()
-        setDrzave(odgovor)
+    async function dohvatiDrzave() {
+        try {
+            const odgovor = await DrzavaService.get();
+            setDrzave(odgovor || []); // Ako je undefined, postavi na prazan niz
+        } catch (error) {
+            console.error("Greška prilikom dohvaćanja država:", error);
+            alert("Neuspjelo dohvaćanje podataka!");
+        }
     }
 
     // hooks (kuka) se izvodi prilikom dolaska na stranicu Smjerovi
@@ -42,13 +47,20 @@ export default function DrzavePregled(){
         brisanjeDrzave(sifra);
     }
 
-    async function brisanjeDrzave(sifra) {
-        const odgovor = await DrzavaService.obrisi(sifra);
-        if(odgovor.greska){
-            alert(odgovor.poruka);
-            return;
+    async function obrisi(sifra) {
+        if (!window.confirm("Sigurno želite obrisati ovu državu?")) return;
+    
+        try {
+            const odgovor = await DrzavaService.obrisi(sifra);
+            if (odgovor.greska) {
+                alert(odgovor.poruka);
+            } else {
+                setDrzave(drzave.filter(d => d.sifra !== sifra));
+            }
+        } catch (error) {
+            console.error("Greška prilikom brisanja države:", error);
+            alert("Neuspjelo brisanje!");
         }
-        dohvatiDrzave();
     }
 
 
