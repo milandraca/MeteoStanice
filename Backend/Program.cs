@@ -26,7 +26,7 @@ builder.Services.AddCors(o => {
         b.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
-
+builder.Services.AddAutoMapper(typeof(BackendMappingProfile));
 
 var app = builder.Build();
 
