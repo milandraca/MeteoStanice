@@ -3,7 +3,7 @@
     public record RegijaDTORead(
         int Sifra,
         string Naziv,
-        string DrzavaSifra
+        int DrzavaSifra
         
      );
 

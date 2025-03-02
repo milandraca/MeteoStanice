@@ -14,7 +14,11 @@ namespace Backend.Data
 
         public DbSet<Drzava> Drzave { get; set; }
 
-       
+        public DbSet<Mjesto> Mjesta { get; set; }
+
+        public DbSet<Meteostanica> Meteostanice { get; set; }
+
+        public DbSet<Podatak> Podaci { get; set; }
 
         public DbSet<Regija> Regije { get; set; } 
 
@@ -24,7 +28,13 @@ namespace Backend.Data
             // implementacija veze 1:n
             modelBuilder.Entity<Regija>().HasOne(g => g.Drzava);
 
-           
+            modelBuilder.Entity<Mjesto>().HasOne(g => g.Regija);
+
+            modelBuilder.Entity<Meteostanica>().HasOne(g => g.Mjesto);
+
+            modelBuilder.Entity<Podatak>().HasOne(g => g.Meteostanica);
+
+
         }
 
 

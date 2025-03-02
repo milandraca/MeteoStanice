@@ -14,6 +14,22 @@ namespace Backend.Mapping
             CreateMap<DrzavaDTOInsertUpdate, Drzava>();
             CreateMap<Drzava, DrzavaDTOInsertUpdate>();
 
+            CreateMap<Regija, RegijaDTORead>();
+            CreateMap<RegijaDTOInsertUpdate, Regija>();
+            CreateMap<Regija, RegijaDTOInsertUpdate>();
+
+            CreateMap<Mjesto, MjestoDTORead>();
+            CreateMap<MjestoDTOInsertUpdate, Mjesto>();
+            CreateMap<Mjesto, MjestoDTOInsertUpdate>();
+
+            CreateMap<Meteostanica, MeteostanicaDTORead>();
+            CreateMap<MeteostanicaDTOInsertUpdate, Meteostanica>();
+            CreateMap<Meteostanica, MeteostanicaDTOInsertUpdate>();
+
+            CreateMap<Podatak, PodatakDTORead>();
+            CreateMap<PodatakDTOInsertUpdate, Podatak>();
+            CreateMap<Podatak, PodatakDTOInsertUpdate>();
+
 
 
 
