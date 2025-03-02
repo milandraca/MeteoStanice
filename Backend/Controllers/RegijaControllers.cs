@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
-namespace EdunovaAPP.Controllers
+namespace Backend.Controllers
 {
 
     [ApiController]

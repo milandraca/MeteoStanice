@@ -1,19 +1,32 @@
 ﻿using Backend.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Backend.Data
 {
     public class BackendContext : DbContext
     {
-
         public BackendContext(DbContextOptions<BackendContext> opcije) : base(opcije)
         {
-            //ovdje se  mogu fino postaviti opcije, ali ne za sada
+
         }
 
 
         public DbSet<Drzava> Drzave { get; set; }
-        public object Grupe { get; internal set; }
+
+       
+
+        public DbSet<Regija> Regije { get; set; } 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            // implementacija veze 1:n
+            modelBuilder.Entity<Regija>().HasOne(g => g.Drzava);
+
+           
+        }
+
+
     }
 }
