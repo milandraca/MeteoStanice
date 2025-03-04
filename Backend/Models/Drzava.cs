@@ -4,7 +4,7 @@ namespace Backend.Models
 {
     public class Drzava : Entitet
     {
-        public string Naziv { get; set; } 
+        public string Naziv { get; set; } = "";
 
     }
 }

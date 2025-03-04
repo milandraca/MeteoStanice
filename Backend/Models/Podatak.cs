@@ -2,7 +2,7 @@
 
 namespace Backend.Models
 {
-    public class Podatak : Meteostanica
+    public class Podatak : Entitet
     {
         [ForeignKey("meteostanica_sifra")]
 

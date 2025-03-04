@@ -22,7 +22,8 @@ namespace Backend.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<DrzavaDTORead>>(_context.Drzave));
+                var drzave = _context.Drzave.ToList();
+                return Ok(_mapper.Map<List<DrzavaDTORead>>(drzave));
             }
             catch (Exception ex)
             {

@@ -2,7 +2,7 @@
 
 namespace Backend.Models
 {
-    public class Regija : Drzava
+    public class Regija : Entitet
     {
         public string Naziv { get; set; }
 
