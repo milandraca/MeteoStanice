@@ -14,7 +14,10 @@ namespace Backend.Mapping
             CreateMap<DrzavaDTOInsertUpdate, Drzava>();
             CreateMap<Drzava, DrzavaDTOInsertUpdate>();
 
-            CreateMap<Regija, RegijaDTORead>();
+            CreateMap<Regija, RegijaDTORead>().ForMember(
+                "DrzavaNaziv",
+                opt => opt.MapFrom(src => src.Drzava.Naziv)
+                );
             CreateMap<RegijaDTOInsertUpdate, Regija>();
             CreateMap<Regija, RegijaDTOInsertUpdate>();
 
