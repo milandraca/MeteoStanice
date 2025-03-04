@@ -8,7 +8,7 @@ namespace Backend.Models.DTO
         string Naziv,
 
 
-        [Required(ErrorMessage = "Broj poste obavezno")]
+        
         int BrojPoste,
      
         [Required(ErrorMessage = "regija obavezno")]

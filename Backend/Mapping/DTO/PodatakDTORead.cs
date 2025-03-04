@@ -7,7 +7,7 @@
         decimal BrzinaVjetra,
         decimal RelativnaVlaga,
         decimal KolicinaPadalina,
-        int MeteostanicaSifra
+        string  MeteostanicaNaziv
 
 
 

@@ -26,7 +26,7 @@ namespace Backend.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<PodatakDTORead>>(_context.Podaci.Include(m => m.Meteostanica)));
+                return Ok(_mapper.Map<List<PodatakDTORead>>(_context.Podaci.Include(g => g.Meteostanica)));
             }
             catch (Exception ex)
             {
