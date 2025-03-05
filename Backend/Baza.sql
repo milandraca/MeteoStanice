@@ -37,7 +37,7 @@ mjesto_sifra int not null references mjesta(sifra)
 );
 
 create table podaci( 
-id int identity(1,1) not null,
+sifra int not null identity(1,1) ,
 meteostanica_sifra int not null references meteostanice(sifra),
 vrijeme datetime not null,
 brzinavjetra int,

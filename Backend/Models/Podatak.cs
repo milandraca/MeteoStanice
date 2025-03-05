@@ -4,7 +4,7 @@ namespace Backend.Models
 {
     public class Podatak : Entitet
     {
-        public int Id { get; set; }
+        
         [ForeignKey("meteostanica_sifra")]
         public DateTime Vrijeme { get; set; }
         public int? BrzinaVjetra { get; set; }
@@ -12,7 +12,7 @@ namespace Backend.Models
         public decimal? RelativnaVlaga { get; set; }
         public decimal? KolicinaPadalina { get; set; }
 
-        public Meteostanica Meteostanica { get; set; }  // Navigacijska svojnost
+        public Meteostanica Meteostanica { get; set; } 
     }
 
 
