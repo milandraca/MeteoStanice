@@ -4,7 +4,7 @@
         int id,
         DateTime Vrijeme,
         decimal Temperatura,
-        decimal BrzinaVjetra,
+        int BrzinaVjetra,
         decimal RelativnaVlaga,
         decimal KolicinaPadalina,
         string  MeteostanicaNaziv
