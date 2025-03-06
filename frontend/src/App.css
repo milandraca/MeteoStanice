@@ -1,15 +1,21 @@
 .ruka{
     cursor: pointer;
-}
-
-.sredina{
-    text-align: center;
-}
-
-.desno{
+    font-weight: bold;
+    color: #63122c;
+  }
+  
+  .desno{
     text-align: right;
-}
-
-.siroko{
+  }
+  
+  .sredina{
+    text-align: center;
+  }
+  
+  .siroko{
     width: 100%;
-}
+  }
+  
+  .akcije{
+    margin-top: 20px;
+  }

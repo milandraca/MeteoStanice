@@ -5,11 +5,9 @@ namespace Backend.Models.DTO
 {
     public record PodatakDTOInsertUpdate(
         [Required(ErrorMessage = "Vrijeme obavezno")]
-        DateTime Vrijeme,
-        [Required(ErrorMessage = "ID obavezno")]
-        int id,
+        DateTime Vrijeme,          
         decimal Temperatura,
-        decimal BrzinaVjetra,
+        int BrzinaVjetra,
         decimal RelativnaVlaga,
         decimal KolicinaPadalina,
         int MeteostanicaSifra

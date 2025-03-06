@@ -21,15 +21,24 @@ namespace Backend.Mapping
             CreateMap<RegijaDTOInsertUpdate, Regija>();
             CreateMap<Regija, RegijaDTOInsertUpdate>();
 
-            CreateMap<Mjesto, MjestoDTORead>();
+            CreateMap<Mjesto, MjestoDTORead>().ForMember(
+                "RegijaNaziv",
+                opt => opt.MapFrom(src => src.Regija.Naziv)
+                );
             CreateMap<MjestoDTOInsertUpdate, Mjesto>();
             CreateMap<Mjesto, MjestoDTOInsertUpdate>();
 
-            CreateMap<Meteostanica, MeteostanicaDTORead>();
+            CreateMap<Meteostanica, MeteostanicaDTORead>().ForMember(
+                "MjestoNaziv",
+                opt => opt.MapFrom(src => src.Mjesto.Naziv)
+                );
             CreateMap<MeteostanicaDTOInsertUpdate, Meteostanica>();
             CreateMap<Meteostanica, MeteostanicaDTOInsertUpdate>();
 
-            CreateMap<Podatak, PodatakDTORead>();
+            CreateMap<Podatak, PodatakDTORead>().ForMember(
+                "MeteostanicaNaziv",
+                opt => opt.MapFrom(src => src.Meteostanica.Naziv)
+                );
             CreateMap<PodatakDTOInsertUpdate, Podatak>();
             CreateMap<Podatak, PodatakDTOInsertUpdate>();
 

@@ -1,13 +1,13 @@
 ﻿namespace Backend.Models.DTO
 {
     public record PodatakDTORead(
-        int id,
+        int Sifra,
         DateTime Vrijeme,
         decimal Temperatura,
-        decimal BrzinaVjetra,
+        int BrzinaVjetra,
         decimal RelativnaVlaga,
         decimal KolicinaPadalina,
-        int MeteostanicaSifra
+        string  MeteostanicaNaziv
 
 
 

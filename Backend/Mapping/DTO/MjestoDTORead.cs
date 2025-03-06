@@ -5,7 +5,9 @@ namespace Backend.Models.DTO
         int Sifra,
         string Naziv,
         int BrojPoste,
-        int RegijaSifra);
+        string RegijaNaziv
+        
+        );
        
 
 

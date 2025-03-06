@@ -23,7 +23,7 @@ export default function DrzavePregled(){
         }
     }
 
-    // hooks (kuka) se izvodi prilikom dolaska na stranicu Smjerovi
+    // hooks (kuka) se izvodi prilikom dolaska na stranicu Države
     useEffect(()=>{
         dohvatiDrzave();
     },[])

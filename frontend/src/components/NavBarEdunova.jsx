@@ -24,10 +24,22 @@ export default function NavBarEdunova(){
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                  
-                    <NavDropdown title="Programi" id="basic-nav-dropdown">
+                    <NavDropdown title="Izbornik" id="basic-nav-dropdown">
                     <NavDropdown.Item
                     onClick={()=>navigate(RouteNames.DRZAVA_PREGLED)}
                     >Drzave</NavDropdown.Item>
+
+                    <NavDropdown.Item
+                    onClick={()=>navigate(RouteNames.REGIJA_PREGLED)}
+                    >Regije</NavDropdown.Item>
+
+                    <NavDropdown.Item
+                    onClick={()=>navigate(RouteNames.MJESTO_PREGLED)}
+                    >Mjesta</NavDropdown.Item>
+
+                    <NavDropdown.Item
+                    onClick={()=>navigate(RouteNames.METEOSTANICA_PREGLED)}
+                    >Meteostanice</NavDropdown.Item>
                     
                     </NavDropdown>
                     <Nav.Link href={PRODUKCIJA + '/swagger'} target='_blank'>Swagger</Nav.Link>
