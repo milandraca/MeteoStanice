@@ -4,7 +4,8 @@
         int Sifra,
         string Naziv,
         decimal Longitude,
-        decimal Latitude
+        decimal Latitude,
+        string MjestoNaziv
 
      );
 

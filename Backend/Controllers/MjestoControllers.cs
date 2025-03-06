@@ -26,8 +26,7 @@ namespace Backend.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<MjestoDTORead>>(_context.Mjesta.Include(m => m.Regija)));
-
+                return Ok(_mapper.Map<List<MjestoDTORead>>(_context.Mjesta.Include(g => g.Regija)));
             }
             catch (Exception ex)
             {
@@ -59,7 +58,7 @@ namespace Backend.Controllers
                 return NotFound(new { poruka = "Mjesto ne postoji u bazi" });
             }
 
-            return Ok(_mapper.Map<RegijaDTOInsertUpdate>(e));
+            return Ok(_mapper.Map<MjestoDTOInsertUpdate>(e));
         }
 
         [HttpPost]
