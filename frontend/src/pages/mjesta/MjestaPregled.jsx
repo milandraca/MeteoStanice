@@ -63,7 +63,7 @@ export default function MjestaPregled() {
             <tr key={mjesto.sifra}>
               <td>{mjesto.naziv}</td>
               <td>{mjesto.brojPoste || 'Nije definirano'}</td>
-              <td>{mjesto.regija?.naziv || 'Nije definirano'}</td>
+              <td>{mjesto.regijaNaziv || 'Nije definirano'}</td>
               <td>
                 <Button
                   onClick={() => navigate(`/mjesto/${mjesto.sifra}`)}

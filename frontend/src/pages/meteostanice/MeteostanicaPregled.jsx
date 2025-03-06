@@ -63,7 +63,7 @@ export default function MeteostanicaPregled() {
           {meteostanice.map((stanica) => (
             <tr key={stanica.sifra}>
               <td>{stanica.naziv}</td>
-              <td>{stanica.mjesto?.naziv || 'Nije definirano'}</td>
+              <td>{stanica.mjestoNaziv || 'Nije definirano'}</td>
               <td>{stanica.latitude ?? 'Nije definirano'}</td>
               <td>{stanica.longitude ?? 'Nije definirano'}</td>
               <td>
