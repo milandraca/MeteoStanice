@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿﻿using AutoMapper;
 using Backend.Controllers;
 using Backend.Data;
 using Backend.Models;
@@ -35,6 +35,29 @@ namespace Backend.Controllers
 
         }
 
+
+        [HttpGet]
+        [Route("Meteostanica/{sifra:int}")]
+        public ActionResult<List<PodatakDTORead>> GetByMeteostanica(int sifra)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                var podaci = _context.Podaci
+                    .Include(p => p.Meteostanica)
+                    .Where(p => p.Meteostanica.Sifra == sifra)
+                    .ToList();
+
+                return Ok(_mapper.Map<List<PodatakDTORead>>(podaci));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
 
         [HttpGet]
         [Route("{sifra:int}")]

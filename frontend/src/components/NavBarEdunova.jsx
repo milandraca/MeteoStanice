@@ -23,11 +23,10 @@ export default function NavBarEdunova(){
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                 
-                    <NavDropdown title="Izbornik" id="basic-nav-dropdown">
-                    <NavDropdown.Item
-                    onClick={()=>navigate(RouteNames.DRZAVA_PREGLED)}
-                    >Drzave</NavDropdown.Item>
+                    <NavDropdown title="Control Panel" id="basic-nav-dropdown">
+                        <NavDropdown.Item
+                        onClick={()=>navigate(RouteNames.DRZAVA_PREGLED)}
+                    >1 - Države</NavDropdown.Item>
 
                     <NavDropdown.Item
                     onClick={()=>navigate(RouteNames.REGIJA_PREGLED)}
@@ -40,8 +39,10 @@ export default function NavBarEdunova(){
                     <NavDropdown.Item
                     onClick={()=>navigate(RouteNames.METEOSTANICA_PREGLED)}
                     >Meteostanice</NavDropdown.Item>
-                    
                     </NavDropdown>
+                    <Nav.Link 
+                        onClick={()=>navigate(RouteNames.PODACI_VIZUALIZACIJA)}
+                        >Vizualizacija</Nav.Link>
                     <Nav.Link href={PRODUKCIJA + '/swagger'} target='_blank'>Swagger</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>

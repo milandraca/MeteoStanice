@@ -15,7 +15,9 @@ export const RouteNames={
 
     METEOSTANICA_PREGLED: '/meteostanica',
     METEOSTANICA_NOVI: '/meteostanica/dodaj',
-    METEOSTANICA_PROMJENA: '/meteostanica/:sifra'
+    METEOSTANICA_PROMJENA: '/meteostanica/:sifra',
+
+    PODACI_VIZUALIZACIJA: '/podaci/vizualizacija'
 }
 
 export const PRODUKCIJA='https://milandraca-001-site1.jtempurl.com';

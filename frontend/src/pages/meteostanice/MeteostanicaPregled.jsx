@@ -53,6 +53,7 @@ export default function MeteostanicaPregled() {
         <thead>
           <tr>
             <th>Naziv</th>
+            <th>Šifra</th>
             <th>Mjesto</th>
             <th>Geografska širina</th>
             <th>Geografska dužina</th>
@@ -63,6 +64,7 @@ export default function MeteostanicaPregled() {
           {meteostanice.map((stanica) => (
             <tr key={stanica.sifra}>
               <td>{stanica.naziv}</td>
+              <td>{stanica.sifra}</td>
               <td>{stanica.mjestoNaziv || 'Nije definirano'}</td>
               <td>{stanica.latitude ?? 'Nije definirano'}</td>
               <td>{stanica.longitude ?? 'Nije definirano'}</td>

@@ -17,6 +17,7 @@ import MjestaPromjena from './pages/mjesta/MjestaPromjena'
 import MeteostanicaPregled from './pages/meteostanice/MeteostanicaPregled'
 import MeteostanicaDodaj from './pages/meteostanice/MeteostanicaDodaj'
 import MeteostanicaPromjena from './pages/meteostanice/MeteostanicaPromjena'
+import PodaciVizualizacija from './pages/podaci/PodaciVizualizacija'
 
 
 
@@ -45,6 +46,7 @@ function App() {
           <Route path={RouteNames.METEOSTANICA_PREGLED} element={<MeteostanicaPregled />} />
           <Route path={RouteNames.METEOSTANICA_NOVI} element={<MeteostanicaDodaj />} />
           <Route path={RouteNames.METEOSTANICA_PROMJENA} element={<MeteostanicaPromjena />} />
+          <Route path={RouteNames.PODACI_VIZUALIZACIJA} element={<PodaciVizualizacija />} />
         </Routes>
 
         <hr />

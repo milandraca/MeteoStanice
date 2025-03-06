@@ -53,6 +53,7 @@ export default function RegijePregled() {
         <thead>
           <tr>
             <th>Naziv</th>
+            <th>Država</th>
             <th>Šifra</th>
             <th>Akcija</th>
           </tr>
@@ -61,6 +62,7 @@ export default function RegijePregled() {
           {regije.map((regija) => (
             <tr key={regija.sifra}>
               <td>{regija.naziv}</td>
+              <td>{regija.drzavaNaziv || 'Nije definirano'}</td>
               <td>{regija.sifra}</td>
               <td>
                 <Button
