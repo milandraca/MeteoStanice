@@ -52,12 +52,15 @@ export default function PodaciVizualizacija() {
       
       setLoading(true);
       const response = await PodatakService.getByMeteostanica(odabranaStanica);
-      if (!response.greska) {
+      if (!response.greska && Array.isArray(response.poruka)) {
         // Sort data by time
         const sortiraniPodaci = response.poruka.sort((a, b) => 
           new Date(a.vrijeme) - new Date(b.vrijeme)
         );
         setPodaci(sortiraniPodaci);
+      } else {
+        console.error('Greška prilikom dohvaćanja podataka:', response.poruka);
+        setPodaci([]);
       }
       setLoading(false);
     };

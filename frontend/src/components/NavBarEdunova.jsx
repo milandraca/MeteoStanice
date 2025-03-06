@@ -26,7 +26,7 @@ export default function NavBarEdunova(){
                     <NavDropdown title="Control Panel" id="basic-nav-dropdown">
                         <NavDropdown.Item
                         onClick={()=>navigate(RouteNames.DRZAVA_PREGLED)}
-                    >1 - Države</NavDropdown.Item>
+                    >Države</NavDropdown.Item>
 
                     <NavDropdown.Item
                     onClick={()=>navigate(RouteNames.REGIJA_PREGLED)}

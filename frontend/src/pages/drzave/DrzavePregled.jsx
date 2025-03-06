@@ -73,24 +73,20 @@ export default function DrzavePregled(){
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
-                    <th>Naziv</th>
                     <th>Šifra</th>
+                    <th>Naziv</th>
                     <th>Akcija</th>
-                    
                 </tr>
             </thead>
             <tbody>
                 {drzave && drzave.map((drzava,index)=>(
                     <tr key={index}>
                         <td>
-                            {drzava.naziv}
-                        </td>
-                        <td>
                             {drzava.sifra}
                         </td>
-                                              
-                        
-                        
+                        <td>
+                            {drzava.naziv}
+                        </td>
                         <td>
                             <Button
                             onClick={()=>navigate(`/drzava/${drzava.sifra}`)}
