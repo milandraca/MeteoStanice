@@ -28,11 +28,10 @@ namespace Backend.Mapping
             CreateMap<MjestoDTOInsertUpdate, Mjesto>();
             CreateMap<Mjesto, MjestoDTOInsertUpdate>();
 
-            CreateMap<Meteostanica, MeteostanicaDTORead>().ForMember(
+            CreateMap<Meteostanica, MeteostanicaDTORead>().ForCtorParam(
                 "MjestoNaziv",opt => opt.MapFrom(src => src.Mjesto.Naziv))
-                
-                .ForMember("RegijaNaziv", opt => opt.MapFrom(src => src.Mjesto.Regija.Naziv))
-                .ForMember("DrzavaNaziv", opt => opt.MapFrom(src => src.Mjesto.Regija.Drzava.Naziv)
+                .ForCtorParam("RegijaNaziv", opt => opt.MapFrom(src => src.Mjesto.Regija.Naziv))
+                .ForCtorParam("DrzavaNaziv", opt => opt.MapFrom(src => src.Mjesto.Regija.Drzava.Naziv)
                 );
             CreateMap<MeteostanicaDTOInsertUpdate, Meteostanica>();
             CreateMap<Meteostanica, MeteostanicaDTOInsertUpdate>();

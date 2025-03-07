@@ -26,7 +26,9 @@ namespace Backend.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<MeteostanicaDTORead>>(_context.Meteostanice.Include(m => m.Mjesto).ThenInclude(r => r.Regija).ThenInclude(d => d.Drzava)));
+                return Ok(_mapper.Map<List<MeteostanicaDTORead>>(
+                    _context.Meteostanice
+                    .Include(m => m.Mjesto).ThenInclude(r => r.Regija).ThenInclude(d => d.Drzava)));
 
             }
             catch (Exception ex)

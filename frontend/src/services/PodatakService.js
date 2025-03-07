@@ -2,7 +2,7 @@ import { HttpService } from "./HttpService";
 
 async function get() {
   try {
-    const odgovor = await HttpService.get("/api/v1/Podatak");
+    const odgovor = await HttpService.get("/Podatak");
     return { greska: false, poruka: odgovor.data };
   } catch (e) {
     console.error("Greška prilikom dohvaćanja podataka:", e);
@@ -16,7 +16,7 @@ async function get() {
 async function getByMeteostanica(sifraMeteostanice) {
   try {
     console.log('PodatakService - Pozivam API za stanicu:', sifraMeteostanice);
-    const odgovor = await HttpService.get(`/api/v1/Podatak/Meteostanica/${sifraMeteostanice}`);
+    const odgovor = await HttpService.get(`/Podatak/Meteostanica/${sifraMeteostanice}`);
     console.log('PodatakService - API odgovor:', odgovor);
     if (!odgovor.data) {
       console.error('PodatakService - Nema podataka u odgovoru');
