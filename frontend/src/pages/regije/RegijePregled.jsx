@@ -52,18 +52,18 @@ export default function RegijePregled() {
       <Table striped bordered hover responsive>
         <thead>
           <tr>
+            <th>Šifra</th>
             <th>Naziv</th>
             <th>Država</th>
-            <th>Šifra</th>
             <th>Akcija</th>
           </tr>
         </thead>
         <tbody>
           {regije.map((regija) => (
             <tr key={regija.sifra}>
+              <td>{regija.sifra}</td>
               <td>{regija.naziv}</td>
               <td>{regija.drzavaNaziv || 'Nije definirano'}</td>
-              <td>{regija.sifra}</td>
               <td>
                 <Button
                   onClick={() => navigate(`/regija/${regija.sifra}`)}

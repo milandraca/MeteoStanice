@@ -15,10 +15,16 @@ async function get() {
 
 async function getByMeteostanica(sifraMeteostanice) {
   try {
+    console.log('PodatakService - Pozivam API za stanicu:', sifraMeteostanice);
     const odgovor = await HttpService.get(`/api/v1/Podatak/Meteostanica/${sifraMeteostanice}`);
+    console.log('PodatakService - API odgovor:', odgovor);
+    if (!odgovor.data) {
+      console.error('PodatakService - Nema podataka u odgovoru');
+      return { greska: true, poruka: "Nema podataka za odabranu meteostanicu" };
+    }
     return { greska: false, poruka: odgovor.data };
   } catch (e) {
-    console.error("Greška prilikom dohvaćanja podataka za meteostanicu:", e);
+    console.error("PodatakService - Greška prilikom dohvaćanja podataka za meteostanicu:", e);
     return {
       greska: true,
       poruka: "Problem kod dohvaćanja podataka za meteostanicu: " + e.message,

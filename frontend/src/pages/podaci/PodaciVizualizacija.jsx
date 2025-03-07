@@ -51,15 +51,20 @@ export default function PodaciVizualizacija() {
       if (!odabranaStanica) return;
       
       setLoading(true);
+      console.log('Dohvaćam podatke za stanicu:', odabranaStanica);
       const response = await PodatakService.getByMeteostanica(odabranaStanica);
+      console.log('API odgovor:', response);
+      
       if (!response.greska && Array.isArray(response.poruka)) {
+        console.log('Dobiveni podaci:', response.poruka);
         // Sort data by time
         const sortiraniPodaci = response.poruka.sort((a, b) => 
           new Date(a.vrijeme) - new Date(b.vrijeme)
         );
+        console.log('Sortirani podaci:', sortiraniPodaci);
         setPodaci(sortiraniPodaci);
       } else {
-        console.error('Greška prilikom dohvaćanja podataka:', response.poruka);
+        console.error('Greška prilikom dohvaćanja podataka:', response);
         setPodaci([]);
       }
       setLoading(false);

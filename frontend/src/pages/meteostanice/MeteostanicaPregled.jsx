@@ -52,8 +52,10 @@ export default function MeteostanicaPregled() {
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>Naziv</th>
             <th>Šifra</th>
+            <th>Naziv</th> 
+            <th>Država</th>
+            <th>Regija</th>           
             <th>Mjesto</th>
             <th>Geografska širina</th>
             <th>Geografska dužina</th>
@@ -63,8 +65,10 @@ export default function MeteostanicaPregled() {
         <tbody>
           {meteostanice.map((stanica) => (
             <tr key={stanica.sifra}>
-              <td>{stanica.naziv}</td>
               <td>{stanica.sifra}</td>
+              <td>{stanica.naziv}</td> 
+              <td>{stanica.drzavaNaziv}</td> 
+              <td>{stanica.regijaNaziv}</td>            
               <td>{stanica.mjestoNaziv || 'Nije definirano'}</td>
               <td>{stanica.latitude ?? 'Nije definirano'}</td>
               <td>{stanica.longitude ?? 'Nije definirano'}</td>

@@ -52,6 +52,7 @@ export default function MjestaPregled() {
       <Table striped bordered hover responsive>
         <thead>
           <tr>
+            <th>Šifra</th>
             <th>Naziv</th>
             <th>Broj pošte</th>
             <th>Regija</th>
@@ -61,6 +62,7 @@ export default function MjestaPregled() {
         <tbody>
           {mjesta.map((mjesto) => (
             <tr key={mjesto.sifra}>
+              <td>{mjesto.sifra}</td>
               <td>{mjesto.naziv}</td>
               <td>{mjesto.brojPoste || 'Nije definirano'}</td>
               <td>{mjesto.regijaNaziv || 'Nije definirano'}</td>
