@@ -5,7 +5,9 @@
         string Naziv,
         decimal Longitude,
         decimal Latitude,
-        string MjestoNaziv
+        string MjestoNaziv,
+        string RegijaNaziv,
+        string DrzavaNaziv
 
      );
 
