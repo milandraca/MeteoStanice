@@ -77,10 +77,13 @@ export default function PodaciVizualizacija() {
   };
 
   const temperaturaConfig = {
-    labels: podaci.map(p => formatDate(p.vrijeme)),
+    labels: podaci
+    .filter(p => p.temperatura !== null).map(p => formatDate(p.vrijeme)),
     datasets: [{
       label: 'Temperatura (°C)',
-      data: podaci.map(p => p.temperatura || 0),
+      data: podaci
+      .filter(p => p.temperatura !== null)
+      .map(p => p.temperatura),
       borderColor: 'rgb(255, 99, 132)',
       tension: 0.1
     }]

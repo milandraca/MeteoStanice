@@ -79,3 +79,17 @@ values
 
 
 -- select * from meteostanice;
+
+update podaci set temperatura=temperatura/10;
+
+
+CREATE TRIGGER DijeliTemperaturu
+ON podaci
+AFTER INSERT
+AS
+BEGIN
+    UPDATE podaci
+    SET temperatura = inserted.temperatura / 10.0
+    FROM podaci
+    INNER JOIN inserted ON podaci.sifra = inserted.sifra;
+END;
