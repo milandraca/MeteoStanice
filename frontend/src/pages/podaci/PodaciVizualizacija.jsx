@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button, ButtonGroup } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { Line, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -49,15 +50,21 @@ export default function PodaciVizualizacija() {
   const [loading, setLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('24h');
 
+  const location = useLocation();
+  
   useEffect(() => {
     const dohvatiMeteostanice = async () => {
       const response = await MeteostanicaService.get();
       if (!response.greska) {
         setMeteostanice(response.poruka);
+        // Ako je proslijeđena stanica kroz navigaciju, odaberi je
+        if (location.state?.selectedStanica) {
+          setOdabraneStanice([location.state.selectedStanica]);
+        }
       }
     };
     dohvatiMeteostanice();
-  }, []);
+  }, [location.state?.selectedStanica]);
 
   useEffect(() => {
     const dohvatiPodatke = async () => {
