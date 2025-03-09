@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import MeteostanicaService from "../../services/MeteostanicaService";
 import MjestoService from "../../services/MjestoService";
-import { Button, Row, Col, Form, Alert } from "react-bootstrap";
+import { Button, Row, Col, Form, Alert, Modal, InputGroup } from "react-bootstrap";
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 
@@ -11,6 +12,14 @@ export default function MeteostanicaDodaj() {
   const [uspjeh, setUspjeh] = useState(null);
   const [loading, setLoading] = useState(false);
   const [mjesta, setMjesta] = useState([]);
+  const [showMapModal, setShowMapModal] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [mapCenter, setMapCenter] = useState({ lat: 45.815399, lng: 15.966568 });
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyCDneAc3hQa36t2L-Vj4F3fNxMrqtZRhRs",
+    id: 'google-map-script'
+  });
   const nazivRef = useRef(null);
   const longitudeRef = useRef(null);
   const latitudeRef = useRef(null);
@@ -122,12 +131,22 @@ export default function MeteostanicaDodaj() {
 
         <Form.Group controlId="latitude" className="mb-3">
           <Form.Label>Geografska širina</Form.Label>
-          <Form.Control 
-            type="text"
-            name="latitude"
-            ref={latitudeRef}
-            placeholder="Npr. 45.123456"
-          />
+          <InputGroup>
+            <Form.Control 
+              type="text"
+              name="latitude"
+              ref={latitudeRef}
+              placeholder="Npr. 45.123456"
+              value={selectedLocation?.lat || ''}
+              onChange={(e) => setSelectedLocation(prev => ({ ...prev, lat: e.target.value }))}
+            />
+            <Button 
+              variant="outline-secondary"
+              onClick={() => setShowMapModal(true)}
+            >
+              🗺️ Odaberi na mapi
+            </Button>
+          </InputGroup>
           <Form.Text className="text-muted">
             Vrijednost između -90 i 90 s do 6 decimala
           </Form.Text>
@@ -135,16 +154,81 @@ export default function MeteostanicaDodaj() {
 
         <Form.Group controlId="longitude" className="mb-3">
           <Form.Label>Geografska dužina</Form.Label>
-          <Form.Control 
-            type="text"
-            name="longitude"
-            ref={longitudeRef}
-            placeholder="Npr. 18.123456"
-          />
+          <InputGroup>
+            <Form.Control 
+              type="text"
+              name="longitude"
+              ref={longitudeRef}
+              placeholder="Npr. 18.123456"
+              value={selectedLocation?.lng || ''}
+              onChange={(e) => setSelectedLocation(prev => ({ ...prev, lng: e.target.value }))}
+            />
+            <Button 
+              variant="outline-secondary"
+              onClick={() => setShowMapModal(true)}
+            >
+              🗺️ Odaberi na mapi
+            </Button>
+          </InputGroup>
           <Form.Text className="text-muted">
             Vrijednost između -180 i 180 s do 6 decimala
           </Form.Text>
         </Form.Group>
+
+        <Modal 
+          show={showMapModal} 
+          onHide={() => setShowMapModal(false)}
+          size="lg"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Odaberi lokaciju na mapi</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {isLoaded ? (
+              <div style={{ height: '400px', width: '100%' }}>
+                <GoogleMap
+                  mapContainerStyle={{ height: '100%', width: '100%' }}
+                  center={mapCenter}
+                  zoom={7}
+                  onClick={(e) => {
+                    const lat = e.latLng.lat();
+                    const lng = e.latLng.lng();
+                    setSelectedLocation({ lat, lng });
+                  }}
+                >
+                  {selectedLocation && (
+                    <Marker
+                      position={{
+                        lat: parseFloat(selectedLocation.lat),
+                        lng: parseFloat(selectedLocation.lng)
+                      }}
+                    />
+                  )}
+                </GoogleMap>
+              </div>
+            ) : (
+              <div>Učitavanje mape...</div>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowMapModal(false)}>
+              Odustani
+            </Button>
+            <Button 
+              variant="primary" 
+              onClick={() => {
+                if (selectedLocation) {
+                  latitudeRef.current.value = selectedLocation.lat;
+                  longitudeRef.current.value = selectedLocation.lng;
+                }
+                setShowMapModal(false);
+              }}
+            >
+              Potvrdi lokaciju
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         <Row className="akcije">
           <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
