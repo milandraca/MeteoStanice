@@ -83,7 +83,11 @@ export default function PodaciVizualizacija() {
   }, [odabranaStanica]);
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString('hr');
+    const date = new Date(dateString);
+    return date.toLocaleDateString('hr', { 
+      day: 'numeric',
+      month: 'short'
+    });
   };
 
   const filterDataByPeriod = (data, period) => {
@@ -173,6 +177,12 @@ const temperaturaConfig = {
     scales: {
       y: {
         beginAtZero: true
+      },
+      x: {
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 6
+        }
       }
     }
   };
