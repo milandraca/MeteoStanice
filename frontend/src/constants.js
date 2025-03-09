@@ -20,4 +20,4 @@ export const RouteNames={
     PODACI_VIZUALIZACIJA: '/podaci/vizualizacija'
 }
 
-export const PRODUKCIJA='https://milandraca-001-site1.jtempurl.com';
+export const PRODUKCIJA='https://localhost:7132';

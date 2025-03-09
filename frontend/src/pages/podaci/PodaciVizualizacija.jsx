@@ -56,12 +56,21 @@ export default function PodaciVizualizacija() {
       console.log('API odgovor:', response);
       
       if (!response.greska && Array.isArray(response.poruka)) {
-        console.log('Dobiveni podaci:', response.poruka);
+        console.log('Dobiveni podaci (sirovi):', response.poruka);
+        console.log('Temperature (sirove):', response.poruka.map(p => ({
+          vrijeme: p.vrijeme,
+          temperatura: p.temperatura
+        })));
+        
         // Sort data by time
         const sortiraniPodaci = response.poruka.sort((a, b) => 
           new Date(a.vrijeme) - new Date(b.vrijeme)
         );
         console.log('Sortirani podaci:', sortiraniPodaci);
+        console.log('Temperature (sortirane):', sortiraniPodaci.map(p => ({
+          vrijeme: p.vrijeme,
+          temperatura: p.temperatura
+        })));
         setPodaci(sortiraniPodaci);
       } else {
         console.error('Greška prilikom dohvaćanja podataka:', response);
@@ -76,43 +85,55 @@ export default function PodaciVizualizacija() {
     return new Date(dateString).toLocaleString('hr');
   };
 
-  const temperaturaConfig = {
-    labels: podaci
-    .filter(p => p.temperatura !== null).map(p => formatDate(p.vrijeme)),
+  const filtriraniPodaci = podaci.filter(p => p.temperatura !== null);
+
+const temperaturaConfig = {
+    labels: filtriraniPodaci.map(p => formatDate(p.vrijeme)),
     datasets: [{
       label: 'Temperatura (°C)',
-      data: podaci
-      .filter(p => p.temperatura !== null)
-      .map(p => p.temperatura),
+      data: filtriraniPodaci.map(p => p.temperatura),
       borderColor: 'rgb(255, 99, 132)',
       tension: 0.1
     }]
-  };
+};
+
+
+  const filtriraniPodaciPadaline = podaci
+    .filter(p => p.kolicinaPadalina !== null)
+    .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme));
 
   const padalineConfig = {
-    labels: podaci.map(p => formatDate(p.vrijeme)),
+    labels: filtriraniPodaciPadaline.map(p => formatDate(p.vrijeme)),
     datasets: [{
       label: 'Količina padalina (mm)',
-      data: podaci.map(p => p.kolicinaPadalina || 0),
+      data: filtriraniPodaciPadaline.map(p => p.kolicinaPadalina),
       backgroundColor: 'rgb(53, 162, 235)'
     }]
   };
 
+  const filtriraniPodaciVjetar = podaci
+    .filter(p => p.brzinaVjetra !== null)
+    .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme));
+
   const vjetarConfig = {
-    labels: podaci.map(p => formatDate(p.vrijeme)),
+    labels: filtriraniPodaciVjetar.map(p => formatDate(p.vrijeme)),
     datasets: [{
       label: 'Brzina vjetra (km/h)',
-      data: podaci.map(p => p.brzinaVjetra || 0),
+      data: filtriraniPodaciVjetar.map(p => p.brzinaVjetra),
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1
     }]
   };
 
+  const filtriraniPodaciVlaga = podaci
+    .filter(p => p.relativnaVlaga !== null)
+    .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme));
+
   const vlagaConfig = {
-    labels: podaci.map(p => formatDate(p.vrijeme)),
+    labels: filtriraniPodaciVlaga.map(p => formatDate(p.vrijeme)),
     datasets: [{
       label: 'Relativna vlaga (%)',
-      data: podaci.map(p => p.relativnaVlaga || 0),
+      data: filtriraniPodaciVlaga.map(p => p.relativnaVlaga),
       borderColor: 'rgb(153, 102, 255)',
       tension: 0.1
     }]
