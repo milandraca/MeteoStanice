@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, ButtonGroup } from 'react-bootstrap';
 import { Line, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -32,6 +32,7 @@ export default function PodaciVizualizacija() {
   const [meteostanice, setMeteostanice] = useState([]);
   const [odabranaStanica, setOdabranaStanica] = useState('');
   const [loading, setLoading] = useState(true);
+  const [selectedPeriod, setSelectedPeriod] = useState('24h');
 
   useEffect(() => {
     const dohvatiMeteostanice = async () => {
@@ -85,7 +86,24 @@ export default function PodaciVizualizacija() {
     return new Date(dateString).toLocaleString('hr');
   };
 
-  const filtriraniPodaci = podaci.filter(p => p.temperatura !== null);
+  const filterDataByPeriod = (data, period) => {
+    const now = new Date();
+    const periodInHours = {
+      '24h': 24,
+      '7d': 24 * 7,
+      '30d': 24 * 30,
+      '1y': 24 * 365
+    };
+    
+    const cutoffTime = new Date(now.getTime() - (periodInHours[period] * 60 * 60 * 1000));
+    
+    return data.filter(p => new Date(p.vrijeme) > cutoffTime);
+  };
+
+  const filtriraniPodaci = filterDataByPeriod(
+    podaci.filter(p => p.temperatura !== null),
+    selectedPeriod
+  );
 
 const temperaturaConfig = {
     labels: filtriraniPodaci.map(p => formatDate(p.vrijeme)),
@@ -98,9 +116,11 @@ const temperaturaConfig = {
 };
 
 
-  const filtriraniPodaciPadaline = podaci
-    .filter(p => p.kolicinaPadalina !== null)
-    .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme));
+  const filtriraniPodaciPadaline = filterDataByPeriod(
+    podaci.filter(p => p.kolicinaPadalina !== null)
+      .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme)),
+    selectedPeriod
+  );
 
   const padalineConfig = {
     labels: filtriraniPodaciPadaline.map(p => formatDate(p.vrijeme)),
@@ -111,9 +131,11 @@ const temperaturaConfig = {
     }]
   };
 
-  const filtriraniPodaciVjetar = podaci
-    .filter(p => p.brzinaVjetra !== null)
-    .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme));
+  const filtriraniPodaciVjetar = filterDataByPeriod(
+    podaci.filter(p => p.brzinaVjetra !== null)
+      .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme)),
+    selectedPeriod
+  );
 
   const vjetarConfig = {
     labels: filtriraniPodaciVjetar.map(p => formatDate(p.vrijeme)),
@@ -125,9 +147,11 @@ const temperaturaConfig = {
     }]
   };
 
-  const filtriraniPodaciVlaga = podaci
-    .filter(p => p.relativnaVlaga !== null)
-    .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme));
+  const filtriraniPodaciVlaga = filterDataByPeriod(
+    podaci.filter(p => p.relativnaVlaga !== null)
+      .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme)),
+    selectedPeriod
+  );
 
   const vlagaConfig = {
     labels: filtriraniPodaciVlaga.map(p => formatDate(p.vrijeme)),
@@ -174,6 +198,70 @@ const temperaturaConfig = {
           ))}
         </Form.Select>
       </Form.Group>
+
+      <Row className="mb-4">
+        <Col>
+          <ButtonGroup className="w-100">
+            <Button 
+              variant={selectedPeriod === '24h' ? 'dark' : 'outline-dark'}
+              onClick={() => setSelectedPeriod('24h')}
+              className="flex-grow-1 custom-btn"
+              style={{
+                backgroundColor: selectedPeriod === '24h' ? '#e9ecef' : 'white',
+                borderColor: '#212529',
+                color: '#212529'
+              }}
+            >
+              24 sata
+            </Button>
+            <Button 
+              variant={selectedPeriod === '7d' ? 'dark' : 'outline-dark'}
+              onClick={() => setSelectedPeriod('7d')}
+              className="flex-grow-1 custom-btn"
+              style={{
+                backgroundColor: selectedPeriod === '7d' ? '#e9ecef' : 'white',
+                borderColor: '#212529',
+                color: '#212529'
+              }}
+            >
+              7 dana
+            </Button>
+            <Button 
+              variant={selectedPeriod === '30d' ? 'dark' : 'outline-dark'}
+              onClick={() => setSelectedPeriod('30d')}
+              className="flex-grow-1 custom-btn"
+              style={{
+                backgroundColor: selectedPeriod === '30d' ? '#e9ecef' : 'white',
+                borderColor: '#212529',
+                color: '#212529'
+              }}
+            >
+              30 dana
+            </Button>
+            <Button 
+              variant={selectedPeriod === '1y' ? 'dark' : 'outline-dark'}
+              onClick={() => setSelectedPeriod('1y')}
+              className="flex-grow-1 custom-btn"
+              style={{
+                backgroundColor: selectedPeriod === '1y' ? '#e9ecef' : 'white',
+                borderColor: '#212529',
+                color: '#212529'
+              }}
+            >
+              1 godina
+            </Button>
+          </ButtonGroup>
+          <style>
+            {`
+              .custom-btn:hover {
+                background-color: #e9ecef !important;
+                color: #212529 !important;
+                border-color: #212529 !important;
+              }
+            `}
+          </style>
+        </Col>
+      </Row>
 
       <Row>
         <Col md={6} className="mb-4">
