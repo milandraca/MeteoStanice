@@ -15,7 +15,6 @@ import {
 import PodatakService from '../../services/PodatakService';
 import MeteostanicaService from '../../services/MeteostanicaService';
 
-// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -27,10 +26,26 @@ ChartJS.register(
   Legend
 );
 
+const chartColors = [
+  'rgb(255, 99, 132)',   // pink
+  'rgb(54, 162, 235)',   // blue
+  'rgb(75, 192, 192)',   // teal
+  'rgb(153, 102, 255)',  // purple
+  'rgb(255, 159, 64)',   // orange
+  'rgb(255, 99, 255)',   // magenta
+  'rgb(99, 255, 132)',   // light green
+  'rgb(45, 192, 255)',   // light blue
+];
+
+const emptyChartConfig = {
+  labels: [],
+  datasets: []
+};
+
 export default function PodaciVizualizacija() {
-  const [podaci, setPodaci] = useState([]);
+  const [podaciPoStanicama, setPodaciPoStanicama] = useState({});
   const [meteostanice, setMeteostanice] = useState([]);
-  const [odabranaStanica, setOdabranaStanica] = useState('');
+  const [odabraneStanice, setOdabraneStanice] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('24h');
 
@@ -39,9 +54,6 @@ export default function PodaciVizualizacija() {
       const response = await MeteostanicaService.get();
       if (!response.greska) {
         setMeteostanice(response.poruka);
-        if (response.poruka.length > 0) {
-          setOdabranaStanica(response.poruka[0].sifra);
-        }
       }
     };
     dohvatiMeteostanice();
@@ -49,38 +61,32 @@ export default function PodaciVizualizacija() {
 
   useEffect(() => {
     const dohvatiPodatke = async () => {
-      if (!odabranaStanica) return;
+      if (odabraneStanice.length === 0) {
+        setPodaciPoStanicama({});
+        setLoading(false);
+        return;
+      }
       
       setLoading(true);
-      console.log('Dohvaćam podatke za stanicu:', odabranaStanica);
-      const response = await PodatakService.getByMeteostanica(odabranaStanica);
-      console.log('API odgovor:', response);
+      const noviPodaci = {};
       
-      if (!response.greska && Array.isArray(response.poruka)) {
-        console.log('Dobiveni podaci (sirovi):', response.poruka);
-        console.log('Temperature (sirove):', response.poruka.map(p => ({
-          vrijeme: p.vrijeme,
-          temperatura: p.temperatura
-        })));
+      for (const stanicaSifra of odabraneStanice) {
+        const response = await PodatakService.getByMeteostanica(stanicaSifra);
         
-        // Sort data by time
-        const sortiraniPodaci = response.poruka.sort((a, b) => 
-          new Date(a.vrijeme) - new Date(b.vrijeme)
-        );
-        console.log('Sortirani podaci:', sortiraniPodaci);
-        console.log('Temperature (sortirane):', sortiraniPodaci.map(p => ({
-          vrijeme: p.vrijeme,
-          temperatura: p.temperatura
-        })));
-        setPodaci(sortiraniPodaci);
-      } else {
-        console.error('Greška prilikom dohvaćanja podataka:', response);
-        setPodaci([]);
+        if (!response.greska && Array.isArray(response.poruka)) {
+          const sortiraniPodaci = response.poruka.sort((a, b) => 
+            new Date(a.vrijeme) - new Date(b.vrijeme)
+          );
+          noviPodaci[stanicaSifra] = sortiraniPodaci;
+        }
       }
+      
+      setPodaciPoStanicama(noviPodaci);
       setLoading(false);
     };
+    
     dohvatiPodatke();
-  }, [odabranaStanica]);
+  }, [odabraneStanice]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -104,68 +110,53 @@ export default function PodaciVizualizacija() {
     return data.filter(p => new Date(p.vrijeme) > cutoffTime);
   };
 
-  const filtriraniPodaci = filterDataByPeriod(
-    podaci.filter(p => p.temperatura !== null),
-    selectedPeriod
-  );
+  const createDatasets = (podatciPoVrsti, valueKey, label) => {
+    if (Object.keys(podatciPoVrsti).length === 0) return [];
 
-const temperaturaConfig = {
-    labels: filtriraniPodaci.map(p => formatDate(p.vrijeme)),
-    datasets: [{
-      label: 'Temperatura (°C)',
-      data: filtriraniPodaci.map(p => p.temperatura),
-      borderColor: 'rgb(255, 99, 132)',
-      tension: 0.1
-    }]
-};
-
-
-  const filtriraniPodaciPadaline = filterDataByPeriod(
-    podaci.filter(p => p.kolicinaPadalina !== null)
-      .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme)),
-    selectedPeriod
-  );
-
-  const padalineConfig = {
-    labels: filtriraniPodaciPadaline.map(p => formatDate(p.vrijeme)),
-    datasets: [{
-      label: 'Količina padalina (mm)',
-      data: filtriraniPodaciPadaline.map(p => p.kolicinaPadalina),
-      backgroundColor: 'rgb(53, 162, 235)'
-    }]
+    return Object.entries(podatciPoVrsti).map(([stanicaSifra, podaci], index) => {
+      const stanica = meteostanice.find(s => s.sifra === stanicaSifra);
+      const stationName = stanica ? stanica.naziv : stanicaSifra;
+      
+      return {
+        label: `${stationName} - ${label}`,
+        data: podaci.map(p => p[valueKey]),
+        borderColor: chartColors[index % chartColors.length],
+        backgroundColor: valueKey === 'kolicinaPadalina' ? chartColors[index % chartColors.length] : undefined,
+        tension: 0.1
+      };
+    });
   };
 
-  const filtriraniPodaciVjetar = filterDataByPeriod(
-    podaci.filter(p => p.brzinaVjetra !== null)
-      .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme)),
-    selectedPeriod
-  );
+  const getFilteredDataByType = (valueKey) => {
+    if (Object.keys(podaciPoStanicama).length === 0) return {};
 
-  const vjetarConfig = {
-    labels: filtriraniPodaciVjetar.map(p => formatDate(p.vrijeme)),
-    datasets: [{
-      label: 'Brzina vjetra (km/h)',
-      data: filtriraniPodaciVjetar.map(p => p.brzinaVjetra),
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1
-    }]
+    const filteredData = {};
+    Object.entries(podaciPoStanicama).forEach(([stanicaSifra, podaci]) => {
+      filteredData[stanicaSifra] = filterDataByPeriod(
+        podaci.filter(p => p[valueKey] !== null),
+        selectedPeriod
+      );
+    });
+    return filteredData;
   };
 
-  const filtriraniPodaciVlaga = filterDataByPeriod(
-    podaci.filter(p => p.relativnaVlaga !== null)
-      .sort((a, b) => new Date(a.vrijeme) - new Date(b.vrijeme)),
-    selectedPeriod
-  );
+  const createChartConfig = (valueKey, label) => {
+    if (odabraneStanice.length === 0) return emptyChartConfig;
 
-  const vlagaConfig = {
-    labels: filtriraniPodaciVlaga.map(p => formatDate(p.vrijeme)),
-    datasets: [{
-      label: 'Relativna vlaga (%)',
-      data: filtriraniPodaciVlaga.map(p => p.relativnaVlaga),
-      borderColor: 'rgb(153, 102, 255)',
-      tension: 0.1
-    }]
+    const filteredData = getFilteredDataByType(valueKey);
+    if (Object.keys(filteredData).length === 0) return emptyChartConfig;
+
+    const firstStationData = Object.values(filteredData)[0] || [];
+    return {
+      labels: firstStationData.map(p => formatDate(p.vrijeme)),
+      datasets: createDatasets(filteredData, valueKey, label)
+    };
   };
+
+  const temperaturaConfig = createChartConfig('temperatura', 'Temperatura (°C)');
+  const padalineConfig = createChartConfig('kolicinaPadalina', 'Količina padalina (mm)');
+  const vjetarConfig = createChartConfig('brzinaVjetra', 'Brzina vjetra (km/h)');
+  const vlagaConfig = createChartConfig('relativnaVlaga', 'Relativna vlaga (%)');
 
   const options = {
     responsive: true,
@@ -187,6 +178,16 @@ const temperaturaConfig = {
     }
   };
 
+  const handleStationToggle = (stanicaSifra) => {
+    setOdabraneStanice(prev => {
+      if (prev.includes(stanicaSifra)) {
+        return prev.filter(sifra => sifra !== stanicaSifra);
+      } else {
+        return [...prev, stanicaSifra];
+      }
+    });
+  };
+
   if (loading) {
     return <div>Učitavanje podataka...</div>;
   }
@@ -195,19 +196,32 @@ const temperaturaConfig = {
     <Container fluid>
       <h2 className="mb-4">Vizualizacija meteoroloških podataka</h2>
       
-      <Form.Group className="mb-4">
-        <Form.Label>Odaberi meteorološku stanicu:</Form.Label>
-        <Form.Select 
-          value={odabranaStanica} 
-          onChange={(e) => setOdabranaStanica(e.target.value)}
-        >
+      <div className="mb-4">
+        <Form.Label>Odaberi meteorološke stanice:</Form.Label>
+        <div style={{ 
+          border: '1px solid #ced4da', 
+          borderRadius: '0.25rem',
+          padding: '1rem',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '1rem',
+          maxHeight: '200px',
+          overflowY: 'auto'
+        }}>
           {meteostanice.map((stanica) => (
-            <option key={stanica.sifra} value={stanica.sifra}>
-              {stanica.naziv}
-            </option>
+            <div key={stanica.sifra} style={{ minWidth: 'fit-content' }}>
+              <Form.Check
+                type="checkbox"
+                id={`stanica-${stanica.sifra}`}
+                label={stanica.naziv}
+                checked={odabraneStanice.includes(stanica.sifra)}
+                onChange={() => handleStationToggle(stanica.sifra)}
+                style={{ margin: 0, whiteSpace: 'nowrap' }}
+              />
+            </div>
           ))}
-        </Form.Select>
-      </Form.Group>
+        </div>
+      </div>
 
       <Row className="mb-4">
         <Col>
