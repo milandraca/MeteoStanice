@@ -36,7 +36,7 @@ export default function Pocetna() {
     let mouseOutTimer = null;
 
     const handleMarkerClick = (stanica) => {
-        navigate('/vizualizacija', { state: { selectedStanica: stanica.sifra } });
+        navigate('/podaci-vizualizacija', { state: { selectedStanica: stanica.sifra } });
     };
 
     const handleMarkerMouseOver = (stanica) => {
@@ -139,7 +139,9 @@ export default function Pocetna() {
                                         lat: parseFloat(selectedStation.latitude),
                                         lng: parseFloat(selectedStation.longitude)
                                     }}
-                                    onCloseClick={() => setSelectedStation(null)}
+                                    options={{
+                                        closeButton: false
+                                    }}
                                 >
                                     <div
                                         onMouseOver={handleInfoWindowMouseOver}

@@ -19,3 +19,7 @@
   .akcije{
     margin-top: 20px;
   }
+
+  .gm-ui-hover-effect {
+    display: none !important;
+}
