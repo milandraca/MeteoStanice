@@ -36,7 +36,7 @@ export default function Pocetna() {
     let mouseOutTimer = null;
 
     const handleMarkerClick = (stanica) => {
-        navigate('/podaci/podaci-vizualizacija', { state: { selectedStanica: stanica.sifra } });
+        navigate('/podaci/vizualizacija', { state: { selectedStanica: stanica.sifra } });
     };
 
     const handleMarkerMouseOver = (stanica) => {
@@ -128,9 +128,9 @@ export default function Pocetna() {
                                         color: 'white',
                                         fontWeight: 'bold'
                                     }}
-                                    onClick={() => handleMarkerClick(stanica)}
+                                    //onClick={() => handleMarkerClick(stanica)}
                                     onMouseOver={() => handleMarkerMouseOver(stanica)}
-                                    onMouseOut={handleMarkerMouseOut}
+                                    //onMouseOut={handleMarkerMouseOut}
                                 />
                             ))}
                             {selectedStation && (
@@ -144,7 +144,7 @@ export default function Pocetna() {
                                     }}
                                 >
                                     <div
-                                        onMouseOver={handleInfoWindowMouseOver}
+                                       // onMouseOver={handleInfoWindowMouseOver}
                                         onMouseOut={handleInfoWindowMouseOut}
                                         onClick={() => handleMarkerClick(selectedStation)}
                                         style={{ 
