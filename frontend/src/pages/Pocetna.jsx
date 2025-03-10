@@ -12,8 +12,8 @@ const mapContainerStyle = {
 };
 
 const center = {
-  lat: 45.815399,
-  lng: 15.966568
+  lat: 45.4900,
+  lng: 19.0614
 };
 
 const options = {
@@ -36,7 +36,7 @@ export default function Pocetna() {
     let mouseOutTimer = null;
 
     const handleMarkerClick = (stanica) => {
-        navigate('/podaci-vizualizacija', { state: { selectedStanica: stanica.sifra } });
+        navigate('/podaci/podaci-vizualizacija', { state: { selectedStanica: stanica.sifra } });
     };
 
     const handleMarkerMouseOver = (stanica) => {
@@ -111,7 +111,7 @@ export default function Pocetna() {
                         <GoogleMap
                             mapContainerStyle={mapContainerStyle}
                             center={center}
-                            zoom={7}
+                            zoom={9}
                             options={options}
                             onLoad={onLoad}
                             onUnmount={onUnmount}
