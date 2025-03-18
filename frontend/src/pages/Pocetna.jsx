@@ -3,6 +3,7 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MeteostanicaService from '../services/MeteostanicaService';
+import { GOOGLE_MAPS_API } from '../constants';
 
 const mapContainerStyle = {
   width: '100%',
@@ -79,10 +80,7 @@ export default function Pocetna() {
         dohvatiMeteostanice();
     }, []);
 
-    const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: "AIzaSyCDneAc3hQa36t2L-Vj4F3fNxMrqtZRhRs",
-        id: 'google-map-script'
-    });
+    const { isLoaded, loadError } = useJsApiLoader(GOOGLE_MAPS_API);
 
     const onLoad = useCallback(map => {
         setMap(map);

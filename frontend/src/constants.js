@@ -21,3 +21,8 @@ export const RouteNames={
 }
 
 export const PRODUKCIJA='https://localhost:7132';
+
+export const GOOGLE_MAPS_API = {
+    googleMapsApiKey: "AIzaSyCDneAc3hQa36t2L-Vj4F3fNxMrqtZRhRs",
+    id: 'google-map-script'
+}

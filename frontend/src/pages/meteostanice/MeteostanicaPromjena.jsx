@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button, Col, Form, Row, Alert, Modal, InputGroup } from "react-bootstrap";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { RouteNames } from "../../constants";
+import { GOOGLE_MAPS_API, RouteNames } from "../../constants";
 import MeteostanicaService from "../../services/MeteostanicaService";
 import MjestoService from "../../services/MjestoService";
 
@@ -18,10 +18,7 @@ export default function MeteostanicaPromjena() {
   const [mapCenter, setMapCenter] = useState({ lat: 45.815399, lng: 15.966568 });
   const routeParams = useParams();
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCDneAc3hQa36t2L-Vj4F3fNxMrqtZRhRs",
-    id: 'google-map-script'
-  });
+  const { isLoaded } = useJsApiLoader(GOOGLE_MAPS_API);
   const nazivRef = useRef(null);
   const longitudeRef = useRef(null);
   const latitudeRef = useRef(null);

@@ -4,7 +4,7 @@ import MjestoService from "../../services/MjestoService";
 import { Button, Row, Col, Form, Alert, Modal, InputGroup } from "react-bootstrap";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { Link, useNavigate } from "react-router-dom";
-import { RouteNames } from "../../constants";
+import { GOOGLE_MAPS_API, RouteNames } from "../../constants";
 
 export default function MeteostanicaDodaj() {
   const navigate = useNavigate();
@@ -16,10 +16,7 @@ export default function MeteostanicaDodaj() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [mapCenter, setMapCenter] = useState({ lat: 45.815399, lng: 15.966568 });
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCDneAc3hQa36t2L-Vj4F3fNxMrqtZRhRs",
-    id: 'google-map-script'
-  });
+  const { isLoaded } = useJsApiLoader(GOOGLE_MAPS_API);
   const nazivRef = useRef(null);
   const longitudeRef = useRef(null);
   const latitudeRef = useRef(null);
