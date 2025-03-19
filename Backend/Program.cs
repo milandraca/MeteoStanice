@@ -12,7 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // dodati swagger
-builder.Services.AddSwaggerGen();
+builder.Services.AddBackendSwaggerGen();
+builder.Services.AddBackendCORS();
 
 
 // dodavanje db contexta

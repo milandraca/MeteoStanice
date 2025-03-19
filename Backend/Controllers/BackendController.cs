@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
+    [Authorize]
     public abstract class BackendController : ControllerBase
     {
 
@@ -17,6 +18,7 @@ namespace Backend.Controllers
 
         // dependecy injection
         // 2. proslijediš instancu kroz konstruktor
+       
         public BackendController(BackendContext context, IMapper mapper)
         {
             _context = context;

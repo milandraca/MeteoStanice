@@ -16,6 +16,12 @@ email varchar(50) not null,
 lozinka varchar(200) not null
 );
 
+-- Lozinka edunova generirana pomoæu https://bcrypt-generator.com/
+insert into operateri values ('edunova@edunova.hr',
+'$2a$13$JpDMSmBb5sbGnwDOnsacceDwXBBDDJTZ4bsXlO7DA9sHbIXziu76G');
+
+
+
 create table drzave(
 sifra int not null primary key identity(1,1), -- ovo je primarni kljuc
 naziv varchar(50) not null
