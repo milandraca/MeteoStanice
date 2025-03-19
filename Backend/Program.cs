@@ -1,4 +1,5 @@
 ﻿using Backend.Data;
+using Backend.Extensions;
 using Backend.Mapping;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +46,10 @@ app.MapOpenApi();
 
 app.UseHttpsRedirection();
 
+// SECURITY
+app.UseAuthentication();
 app.UseAuthorization();
+// ENDSECURITY
 
 // swagger sucelje
 app.UseSwagger();

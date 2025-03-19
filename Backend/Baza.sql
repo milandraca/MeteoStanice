@@ -1,4 +1,4 @@
-﻿﻿SELECT name, collation_name FROM sys.databases;
+﻿SELECT name, collation_name FROM sys.databases;
 GO
 ALTER DATABASE db_ab2f7a_weatherstation SET SINGLE_USER WITH
 ROLLBACK IMMEDIATE;
