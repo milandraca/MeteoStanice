@@ -29,6 +29,12 @@ builder.Services.AddCors(o => {
 });
 builder.Services.AddAutoMapper(typeof(BackendMappingProfile));
 
+// SECURITY
+builder.Services.AddEdunovaSecurity();
+builder.Services.AddAuthorization();
+// END SECURITY
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
