@@ -1,4 +1,4 @@
-﻿using Backend.Models;
+﻿﻿using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
@@ -20,7 +20,9 @@ namespace Backend.Data
 
         public DbSet<Podatak> Podaci { get; set; }
 
-        public DbSet<Regija> Regije { get; set; } 
+        public DbSet<Regija> Regije { get; set; }
+
+        public DbSet<Operater> Operateri { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

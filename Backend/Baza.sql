@@ -1,4 +1,4 @@
-﻿SELECT name, collation_name FROM sys.databases;
+﻿﻿SELECT name, collation_name FROM sys.databases;
 GO
 ALTER DATABASE db_ab2f7a_weatherstation SET SINGLE_USER WITH
 ROLLBACK IMMEDIATE;
@@ -9,6 +9,12 @@ ALTER DATABASE db_ab2f7a_weatherstation SET MULTI_USER;
 GO
 SELECT name, collation_name FROM sys.databases;
 GO
+
+create table operateri(
+sifra int not null primary key identity(1,1),
+email varchar(50) not null,
+lozinka varchar(200) not null
+);
 
 create table drzave(
 sifra int not null primary key identity(1,1), -- ovo je primarni kljuc
@@ -46,7 +52,6 @@ relativnavlaga decimal(4,2),
 kolicinapadalina decimal(4,2)
 );
 
-
 -- 1 (Ovo je šifra koju je dodjelila baza)
 insert into drzave 
 (naziv) values
@@ -55,8 +60,6 @@ insert into drzave
 insert into drzave(naziv) values
 -- 2
 ('Srbija');
-
-
 
 insert into regije (naziv, drzava_sifra) values
 -- 1
@@ -68,20 +71,16 @@ insert into mjesta(naziv, brojposte, regija_sifra) values
 ('Jagodnjak',null,1 ),
 ('Novi Sad',null, 2);
 
-
 insert into meteostanice (naziv, longitude, latitude, mjesto_sifra) 
 values 
 ('GW1101', NULL, NULL, 1),
 ('WH2650A',NULL, NULL, 2),
 ('GW2001', NULL, NULL, 1);
 
-
-
-
 -- select * from meteostanice;
 
 update podaci set temperatura=temperatura/10;
-
+GO
 
 CREATE TRIGGER DijeliTemperaturu
 ON podaci
@@ -93,3 +92,4 @@ BEGIN
     FROM podaci
     INNER JOIN inserted ON podaci.sifra = inserted.sifra;
 END;
+GO

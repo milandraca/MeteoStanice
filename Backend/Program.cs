@@ -30,7 +30,7 @@ builder.Services.AddCors(o => {
 builder.Services.AddAutoMapper(typeof(BackendMappingProfile));
 
 // SECURITY
-builder.Services.AddEdunovaSecurity();
+builder.Services.AddBackendSecurity();
 builder.Services.AddAuthorization();
 // END SECURITY
 
