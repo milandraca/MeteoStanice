@@ -21,6 +21,8 @@ export default function Login() {
             const success = await AuthService.login(email, password);
             
             if (success) {
+                // Trigger a storage event to update the navbar
+                window.dispatchEvent(new Event('storage'));
                 navigate(RouteNames.HOME);
             } else {
                 setError('Neuspješna prijava. Provjerite email i lozinku.');

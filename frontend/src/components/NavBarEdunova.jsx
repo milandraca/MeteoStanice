@@ -71,7 +71,7 @@ export default function NavBarEdunova(){
                 </Nav>
                 <Nav>
                     {isAuthenticated ? (
-                        <Nav.Link onClick={handleLogout}>Odjava</Nav.Link>
+                        <Nav.Link onClick={handleLogout}>Izlaz</Nav.Link>
                     ) : (
                         <>
                             <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>Prijava</Nav.Link>

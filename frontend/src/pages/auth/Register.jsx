@@ -9,6 +9,7 @@ export default function Register() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
     
     const navigate = useNavigate();
@@ -29,8 +30,13 @@ export default function Register() {
             const success = await AuthService.register(email, password);
             
             if (success) {
-                // Redirect to login page after successful registration
-                navigate(RouteNames.LOGIN);
+                // Show success message
+                setSuccess('Registracija uspješna! Preusmjeravanje na prijavu...');
+                
+                // Redirect to login page after a short delay
+                setTimeout(() => {
+                    navigate(RouteNames.LOGIN);
+                }, 2000);
             } else {
                 setError('Neuspješna registracija. Pokušajte ponovno.');
             }
@@ -49,6 +55,7 @@ export default function Register() {
                     <Card.Title className="text-center mb-4">Registracija</Card.Title>
                     
                     {error && <div className="alert alert-danger">{error}</div>}
+                    {success && <div className="alert alert-success">{success}</div>}
                     
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3">
