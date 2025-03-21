@@ -63,5 +63,46 @@ export const AuthService = {
             // Set the Authorization header
             HttpService.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         }
+    },
+
+    // Decode JWT token
+    decodeToken(token) {
+        if (!token) return null;
+        try {
+            // Split the token into parts
+            const parts = token.split('.');
+            if (parts.length !== 3) return null;
+            
+            // Decode the payload (middle part)
+            const payload = JSON.parse(atob(parts[1]));
+            return payload;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
+    },
+
+    // Check if the current user is an admin
+    isAdmin() {
+        const token = this.getToken();
+        if (!token) return false;
+        
+        const decoded = this.decodeToken(token);
+        if (!decoded) return false;
+        
+        // Check if the admin claim exists and is true
+        // Case-insensitive comparison since C# boolean.ToString() returns "True"/"False"
+        return decoded.admin?.toLowerCase() === 'true';
+    },
+
+    // Get current user's email
+    getCurrentUserEmail() {
+        const token = this.getToken();
+        if (!token) return null;
+        
+        const decoded = this.decodeToken(token);
+        if (!decoded) return null;
+        
+        return decoded.email;
     }
 };

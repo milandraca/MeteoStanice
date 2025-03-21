@@ -13,5 +13,9 @@
         /// Lozinka operatera.
         /// </summary>
         public string Lozinka { get; set; } = "";
+        /// <summary>
+        /// Označava je li operater administrator.
+        /// </summary>
+        public bool Admin { get; set; } = false;
     }
 }

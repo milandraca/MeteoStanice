@@ -6,11 +6,12 @@ import moment from "moment";
 import { GrValidate } from "react-icons/gr";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
-
+import { AuthService } from "../../services/AuthService";
 
 export default function DrzavePregled(){
 
     const[drzave, setDrzave] = useState();
+    const[isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     async function dohvatiDrzave() {
@@ -26,6 +27,7 @@ export default function DrzavePregled(){
     // hooks (kuka) se izvodi prilikom dolaska na stranicu Države
     useEffect(()=>{
         dohvatiDrzave();
+        setIsAdmin(AuthService.isAdmin());
     },[])
 
 
@@ -34,17 +36,6 @@ export default function DrzavePregled(){
             return 'Nije definirano'
         }
         return moment.utc(datum).format('DD. MM. YYYY.')
-    }
-
-    
-
-    
-
-    function obrisi(sifra){
-        if(!confirm('Sigurno obrisati')){
-            return;
-        }
-        brisanjeDrzave(sifra);
     }
 
     async function obrisi(sifra) {
@@ -66,16 +57,18 @@ export default function DrzavePregled(){
 
     return(
         <>
-        <Link
-        to={RouteNames.DRZAVA_NOVI}
-        className="btn btn-success siroko"
-        >Dodaj novu državu</Link>
+        {isAdmin && (
+            <Link
+            to={RouteNames.DRZAVA_NOVI}
+            className="btn btn-success siroko"
+            >Dodaj novu državu</Link>
+        )}
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
                     <th>Šifra</th>
                     <th>Naziv</th>
-                    <th>Akcija</th>
+                    {isAdmin && <th>Akcija</th>}
                 </tr>
             </thead>
             <tbody>
@@ -87,22 +80,22 @@ export default function DrzavePregled(){
                         <td>
                             {drzava.naziv}
                         </td>
-                        <td>
-                            <Button
-                            onClick={()=>navigate(`/drzava/${drzava.sifra}`)}
-                            >Promjena</Button>
-                            &nbsp;&nbsp;&nbsp;
-                            <Button
-                            variant="danger"
-                            onClick={()=>obrisi(drzava.sifra)}
-                            >Obriši</Button>
-                        </td>
+                        {isAdmin && (
+                            <td>
+                                <Button
+                                onClick={()=>navigate(`/drzava/${drzava.sifra}`)}
+                                >Promjena</Button>
+                                &nbsp;&nbsp;&nbsp;
+                                <Button
+                                variant="danger"
+                                onClick={()=>obrisi(drzava.sifra)}
+                                >Obriši</Button>
+                            </td>
+                        )}
                     </tr>
                 ))}
             </tbody>
         </Table>
         </>
     )
-
-
 }

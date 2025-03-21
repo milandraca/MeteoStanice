@@ -3,9 +3,11 @@ import MeteostanicaService from "../../services/MeteostanicaService";
 import { Button, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
+import { AuthService } from "../../services/AuthService";
 
 export default function MeteostanicaPregled() {
   const [meteostanice, setMeteostanice] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const dohvatiMeteostanice = async () => {
@@ -24,6 +26,7 @@ export default function MeteostanicaPregled() {
 
   useEffect(() => {
     dohvatiMeteostanice();
+    setIsAdmin(AuthService.isAdmin());
   }, []);
 
   const obrisi = async (sifra) => {
@@ -46,9 +49,11 @@ export default function MeteostanicaPregled() {
 
   return (
     <>
-      <Link to={RouteNames.METEOSTANICA_NOVI} className="btn btn-success siroko">
-        Dodaj novu meteostanicu
-      </Link>
+      {isAdmin && (
+        <Link to={RouteNames.METEOSTANICA_NOVI} className="btn btn-success siroko">
+          Dodaj novu meteostanicu
+        </Link>
+      )}
       <Table striped bordered hover responsive>
         <thead>
           <tr>
@@ -59,7 +64,7 @@ export default function MeteostanicaPregled() {
             <th>Mjesto</th>
             <th>Geografska širina</th>
             <th>Geografska dužina</th>
-            <th>Akcija</th>
+            {isAdmin && <th>Akcija</th>}
           </tr>
         </thead>
         <tbody>
@@ -72,20 +77,22 @@ export default function MeteostanicaPregled() {
               <td>{stanica.mjestoNaziv || 'Nije definirano'}</td>
               <td>{stanica.latitude ?? 'Nije definirano'}</td>
               <td>{stanica.longitude ?? 'Nije definirano'}</td>
-              <td>
-                <Button
-                  onClick={() => navigate(`/meteostanica/${stanica.sifra}`)}
-                  className="me-2"
-                >
-                  Promjena
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => obrisi(stanica.sifra)}
-                >
-                  Obriši
-                </Button>
-              </td>
+              {isAdmin && (
+                <td>
+                  <Button
+                    onClick={() => navigate(`/meteostanica/${stanica.sifra}`)}
+                    className="me-2"
+                  >
+                    Promjena
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => obrisi(stanica.sifra)}
+                  >
+                    Obriši
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

@@ -3,9 +3,11 @@ import RegijaService from "../../services/RegijaService";
 import { Button, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
+import { AuthService } from "../../services/AuthService";
 
 export default function RegijePregled() {
   const [regije, setRegije] = useState([]); // Inicijalizirajte kao prazan niz
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const dohvatiRegije = async () => {
@@ -24,6 +26,7 @@ export default function RegijePregled() {
 
   useEffect(() => {
     dohvatiRegije();
+    setIsAdmin(AuthService.isAdmin());
   }, []);
 
   const obrisi = async (sifra) => {
@@ -46,16 +49,18 @@ export default function RegijePregled() {
 
   return (
     <>
-      <Link to={RouteNames.REGIJA_NOVI} className="btn btn-success siroko">
-        Dodaj novu regiju
-      </Link>
+      {isAdmin && (
+        <Link to={RouteNames.REGIJA_NOVI} className="btn btn-success siroko">
+          Dodaj novu regiju
+        </Link>
+      )}
       <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>Šifra</th>
             <th>Naziv</th>
             <th>Država</th>
-            <th>Akcija</th>
+            {isAdmin && <th>Akcija</th>}
           </tr>
         </thead>
         <tbody>
@@ -64,20 +69,22 @@ export default function RegijePregled() {
               <td>{regija.sifra}</td>
               <td>{regija.naziv}</td>
               <td>{regija.drzavaNaziv || 'Nije definirano'}</td>
-              <td>
-                <Button
-                  onClick={() => navigate(`/regija/${regija.sifra}`)}
-                  className="me-2" // Dodajte marginu s desne strane
-                >
-                  Promjena
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => obrisi(regija.sifra)}
-                >
-                  Obriši
-                </Button>
-              </td>
+              {isAdmin && (
+                <td>
+                  <Button
+                    onClick={() => navigate(`/regija/${regija.sifra}`)}
+                    className="me-2" // Dodajte marginu s desne strane
+                  >
+                    Promjena
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => obrisi(regija.sifra)}
+                  >
+                    Obriši
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

@@ -3,9 +3,11 @@ import MjestoService from "../../services/MjestoService";
 import { Button, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
+import { AuthService } from "../../services/AuthService";
 
 export default function MjestaPregled() {
   const [mjesta, setMjesta] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const dohvatiMjesta = async () => {
@@ -24,6 +26,7 @@ export default function MjestaPregled() {
 
   useEffect(() => {
     dohvatiMjesta();
+    setIsAdmin(AuthService.isAdmin());
   }, []);
 
   const obrisi = async (sifra) => {
@@ -46,9 +49,11 @@ export default function MjestaPregled() {
 
   return (
     <>
-      <Link to={RouteNames.MJESTO_NOVI} className="btn btn-success siroko">
-        Dodaj novo mjesto
-      </Link>
+      {isAdmin && (
+        <Link to={RouteNames.MJESTO_NOVI} className="btn btn-success siroko">
+          Dodaj novo mjesto
+        </Link>
+      )}
       <Table striped bordered hover responsive>
         <thead>
           <tr>
@@ -56,7 +61,7 @@ export default function MjestaPregled() {
             <th>Naziv</th>
             <th>Broj pošte</th>
             <th>Regija</th>
-            <th>Akcija</th>
+            {isAdmin && <th>Akcija</th>}
           </tr>
         </thead>
         <tbody>
@@ -66,20 +71,22 @@ export default function MjestaPregled() {
               <td>{mjesto.naziv}</td>
               <td>{mjesto.brojPoste || 'Nije definirano'}</td>
               <td>{mjesto.regijaNaziv || 'Nije definirano'}</td>
-              <td>
-                <Button
-                  onClick={() => navigate(`/mjesto/${mjesto.sifra}`)}
-                  className="me-2"
-                >
-                  Promjena
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => obrisi(mjesto.sifra)}
-                >
-                  Obriši
-                </Button>
-              </td>
+              {isAdmin && (
+                <td>
+                  <Button
+                    onClick={() => navigate(`/mjesto/${mjesto.sifra}`)}
+                    className="me-2"
+                  >
+                    Promjena
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => obrisi(mjesto.sifra)}
+                  >
+                    Obriši
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

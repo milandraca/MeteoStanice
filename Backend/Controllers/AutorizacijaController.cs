@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿using Backend.Data;
+﻿﻿﻿﻿﻿﻿﻿﻿using Backend.Data;
 using Backend.Models;
 using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -109,8 +109,16 @@ namespace Backend.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes("MojKljucKojijeJakoTajan i dovoljno dugačak da se može koristiti");
 
+            var claims = new List<System.Security.Claims.Claim>
+            {
+                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Sub, operBaza.Sifra.ToString()),
+                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Email, operBaza.Email),
+                new System.Security.Claims.Claim("admin", operBaza.Admin.ToString())
+            };
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Subject = new System.Security.Claims.ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.Add(TimeSpan.FromHours(8)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };

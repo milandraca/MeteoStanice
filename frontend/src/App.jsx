@@ -23,8 +23,7 @@ import Register from './pages/auth/Register'
 import OperaterPregled from './pages/operateri/OperaterPregled'
 import { useEffect } from 'react'
 import { AuthService } from './services/AuthService'
-
-
+import { ProtectedRoute, AdminRoute } from './components/ProtectedRoute'
 
 function App() {
   // Initialize authentication state when the app loads
@@ -41,25 +40,126 @@ function App() {
           <Route path={RouteNames.HOME} element={<Pocetna />} />
           <Route path={RouteNames.LOGIN} element={<Login />} />
           <Route path={RouteNames.REGISTER} element={<Register />} />
-          
-          <Route path={RouteNames.DRZAVA_PREGLED} element={<DrzavePregled />} />
-          <Route path={RouteNames.DRZAVA_NOVI} element={<DrzaveDodaj />} />
-          <Route path={RouteNames.DRZAVA_PROMJENA} element={<DrzavePromjena />} />
-
-          
-          <Route path={RouteNames.REGIJA_PREGLED} element={<RegijePregled />} />
-          <Route path={RouteNames.REGIJA_NOVI} element={<RegijeDodaj />} />
-          <Route path={RouteNames.REGIJA_PROMJENA} element={<RegijePromjena />} />
-
-          <Route path={RouteNames.MJESTO_PREGLED} element={<MjestaPregled />} />
-          <Route path={RouteNames.MJESTO_NOVI} element={<MjestaDodaj />} />
-          <Route path={RouteNames.MJESTO_PROMJENA} element={<MjestaPromjena />} />
-
-          <Route path={RouteNames.METEOSTANICA_PREGLED} element={<MeteostanicaPregled />} />
-          <Route path={RouteNames.METEOSTANICA_NOVI} element={<MeteostanicaDodaj />} />
-          <Route path={RouteNames.METEOSTANICA_PROMJENA} element={<MeteostanicaPromjena />} />
           <Route path={RouteNames.PODACI_VIZUALIZACIJA} element={<PodaciVizualizacija />} />
-          <Route path={RouteNames.OPERATER_PREGLED} element={<OperaterPregled />} />
+          
+          {/* Protected routes - require authentication */}
+          <Route 
+            path={RouteNames.DRZAVA_PREGLED} 
+            element={
+              <ProtectedRoute>
+                <DrzavePregled />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Admin-only routes - require admin privileges */}
+          <Route 
+            path={RouteNames.DRZAVA_NOVI} 
+            element={
+              <AdminRoute>
+                <DrzaveDodaj />
+              </AdminRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.DRZAVA_PROMJENA} 
+            element={
+              <AdminRoute>
+                <DrzavePromjena />
+              </AdminRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.REGIJA_PREGLED} 
+            element={
+              <ProtectedRoute>
+                <RegijePregled />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.REGIJA_NOVI} 
+            element={
+              <AdminRoute>
+                <RegijeDodaj />
+              </AdminRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.REGIJA_PROMJENA} 
+            element={
+              <AdminRoute>
+                <RegijePromjena />
+              </AdminRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.MJESTO_PREGLED} 
+            element={
+              <ProtectedRoute>
+                <MjestaPregled />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.MJESTO_NOVI} 
+            element={
+              <AdminRoute>
+                <MjestaDodaj />
+              </AdminRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.MJESTO_PROMJENA} 
+            element={
+              <AdminRoute>
+                <MjestaPromjena />
+              </AdminRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.METEOSTANICA_PREGLED} 
+            element={
+              <ProtectedRoute>
+                <MeteostanicaPregled />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.METEOSTANICA_NOVI} 
+            element={
+              <AdminRoute>
+                <MeteostanicaDodaj />
+              </AdminRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.METEOSTANICA_PROMJENA} 
+            element={
+              <AdminRoute>
+                <MeteostanicaPromjena />
+              </AdminRoute>
+            } 
+          />
+          
+          <Route 
+            path={RouteNames.OPERATER_PREGLED} 
+            element={
+              <AdminRoute>
+                <OperaterPregled />
+              </AdminRoute>
+            } 
+          />
         </Routes>
 
         <hr />

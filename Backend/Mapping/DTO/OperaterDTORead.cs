@@ -5,7 +5,9 @@ namespace Backend.Models.DTO
     /// </summary>
     /// <param name="Sifra">Šifra operatera</param>
     /// <param name="Email">Email operatera</param>
+    /// <param name="Admin">Označava je li operater administrator</param>
     public record OperaterDTORead(
         int Sifra,
-        string Email);
+        string Email,
+        bool Admin);
 }

@@ -7,16 +7,25 @@ import { PRODUKCIJA, RouteNames } from '../constants';
 import { AuthService } from '../services/AuthService';
 import { useState, useEffect } from 'react';
 
-
-
 export default function NavBarEdunova(){
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
     const navigate = useNavigate();
 
     // Check authentication status when component mounts
     useEffect(() => {
         const checkAuth = () => {
-            setIsAuthenticated(AuthService.isAuthenticated());
+            const authenticated = AuthService.isAuthenticated();
+            setIsAuthenticated(authenticated);
+            
+            if (authenticated) {
+                setIsAdmin(AuthService.isAdmin());
+                setUserEmail(AuthService.getCurrentUserEmail() || '');
+            } else {
+                setIsAdmin(false);
+                setUserEmail('');
+            }
         };
         
         // Check initially
@@ -33,6 +42,8 @@ export default function NavBarEdunova(){
     const handleLogout = () => {
         AuthService.logout();
         setIsAuthenticated(false);
+        setIsAdmin(false);
+        setUserEmail('');
         navigate(RouteNames.HOME);
     };
 
@@ -50,24 +61,26 @@ export default function NavBarEdunova(){
                     {isAuthenticated && (
                         <NavDropdown title="Control Panel" id="basic-nav-dropdown">
                             <NavDropdown.Item
-                            onClick={()=>navigate(RouteNames.DRZAVA_PREGLED)}
-                        >Države</NavDropdown.Item>
+                                onClick={()=>navigate(RouteNames.DRZAVA_PREGLED)}
+                            >Države</NavDropdown.Item>
 
-                        <NavDropdown.Item
-                        onClick={()=>navigate(RouteNames.REGIJA_PREGLED)}
-                        >Regije</NavDropdown.Item>
+                            <NavDropdown.Item
+                                onClick={()=>navigate(RouteNames.REGIJA_PREGLED)}
+                            >Regije</NavDropdown.Item>
 
-                        <NavDropdown.Item
-                        onClick={()=>navigate(RouteNames.MJESTO_PREGLED)}
-                        >Mjesta</NavDropdown.Item>
+                            <NavDropdown.Item
+                                onClick={()=>navigate(RouteNames.MJESTO_PREGLED)}
+                            >Mjesta</NavDropdown.Item>
 
-                        <NavDropdown.Item
-                        onClick={()=>navigate(RouteNames.METEOSTANICA_PREGLED)}
-                        >Meteostanice</NavDropdown.Item>
+                            <NavDropdown.Item
+                                onClick={()=>navigate(RouteNames.METEOSTANICA_PREGLED)}
+                            >Meteostanice</NavDropdown.Item>
 
-                        <NavDropdown.Item
-                        onClick={()=>navigate(RouteNames.OPERATER_PREGLED)}
-                        >Korisnici</NavDropdown.Item>
+                            {isAdmin && (
+                                <NavDropdown.Item
+                                    onClick={()=>navigate(RouteNames.OPERATER_PREGLED)}
+                                >Korisnici</NavDropdown.Item>
+                            )}
                         </NavDropdown>
                     )}
                     <Nav.Link 
@@ -77,7 +90,11 @@ export default function NavBarEdunova(){
                 </Nav>
                 <Nav>
                     {isAuthenticated ? (
-                        <Nav.Link onClick={handleLogout}>Izlaz</Nav.Link>
+                        <>
+                            {isAdmin && <span className="navbar-text me-3">Admin: {userEmail}</span>}
+                            {!isAdmin && <span className="navbar-text me-3">User: {userEmail}</span>}
+                            <Nav.Link onClick={handleLogout}>Izlaz</Nav.Link>
+                        </>
                     ) : (
                         <>
                             <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>Prijava</Nav.Link>

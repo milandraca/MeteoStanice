@@ -13,6 +13,7 @@
   - [AddBackendSecurity(Services)](#M-Backend-Extensions-BackendExtensions-AddBackendSecurity-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'Backend.Extensions.BackendExtensions.AddBackendSecurity(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
   - [AddBackendSwaggerGen(Services)](#M-Backend-Extensions-BackendExtensions-AddBackendSwaggerGen-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'Backend.Extensions.BackendExtensions.AddBackendSwaggerGen(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
 - [Operater](#T-Backend-Models-Operater 'Backend.Models.Operater')
+  - [Admin](#P-Backend-Models-Operater-Admin 'Backend.Models.Operater.Admin')
   - [Email](#P-Backend-Models-Operater-Email 'Backend.Models.Operater.Email')
   - [Lozinka](#P-Backend-Models-Operater-Lozinka 'Backend.Models.Operater.Lozinka')
 - [OperaterController](#T-Backend-Controllers-OperaterController 'Backend.Controllers.OperaterController')
@@ -22,7 +23,8 @@
   - [Email](#P-Backend-Models-DTO-OperaterDTO-Email 'Backend.Models.DTO.OperaterDTO.Email')
   - [Password](#P-Backend-Models-DTO-OperaterDTO-Password 'Backend.Models.DTO.OperaterDTO.Password')
 - [OperaterDTORead](#T-Backend-Models-DTO-OperaterDTORead 'Backend.Models.DTO.OperaterDTORead')
-  - [#ctor(Sifra,Email)](#M-Backend-Models-DTO-OperaterDTORead-#ctor-System-Int32,System-String- 'Backend.Models.DTO.OperaterDTORead.#ctor(System.Int32,System.String)')
+  - [#ctor(Sifra,Email,Admin)](#M-Backend-Models-DTO-OperaterDTORead-#ctor-System-Int32,System-String,System-Boolean- 'Backend.Models.DTO.OperaterDTORead.#ctor(System.Int32,System.String,System.Boolean)')
+  - [Admin](#P-Backend-Models-DTO-OperaterDTORead-Admin 'Backend.Models.DTO.OperaterDTORead.Admin')
   - [Email](#P-Backend-Models-DTO-OperaterDTORead-Email 'Backend.Models.DTO.OperaterDTORead.Email')
   - [Sifra](#P-Backend-Models-DTO-OperaterDTORead-Sifra 'Backend.Models.DTO.OperaterDTORead.Sifra')
 
@@ -188,6 +190,13 @@ Backend.Models
 
 Operater koji se koristi za prijavu u sustav.
 
+<a name='P-Backend-Models-Operater-Admin'></a>
+### Admin `property`
+
+##### Summary
+
+Označava je li operater administrator.
+
 <a name='P-Backend-Models-Operater-Email'></a>
 ### Email `property`
 
@@ -290,8 +299,8 @@ DTO (Data Transfer Object) za čitanje operatera.
 | ---- | ---- | ----------- |
 | Sifra | [T:Backend.Models.DTO.OperaterDTORead](#T-T-Backend-Models-DTO-OperaterDTORead 'T:Backend.Models.DTO.OperaterDTORead') | Šifra operatera |
 
-<a name='M-Backend-Models-DTO-OperaterDTORead-#ctor-System-Int32,System-String-'></a>
-### #ctor(Sifra,Email) `constructor`
+<a name='M-Backend-Models-DTO-OperaterDTORead-#ctor-System-Int32,System-String,System-Boolean-'></a>
+### #ctor(Sifra,Email,Admin) `constructor`
 
 ##### Summary
 
@@ -303,6 +312,14 @@ DTO (Data Transfer Object) za čitanje operatera.
 | ---- | ---- | ----------- |
 | Sifra | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Šifra operatera |
 | Email | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Email operatera |
+| Admin | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | Označava je li operater administrator |
+
+<a name='P-Backend-Models-DTO-OperaterDTORead-Admin'></a>
+### Admin `property`
+
+##### Summary
+
+Označava je li operater administrator
 
 <a name='P-Backend-Models-DTO-OperaterDTORead-Email'></a>
 ### Email `property`
