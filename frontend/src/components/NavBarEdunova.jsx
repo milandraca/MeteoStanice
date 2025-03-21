@@ -64,6 +64,10 @@ export default function NavBarEdunova(){
                         <NavDropdown.Item
                         onClick={()=>navigate(RouteNames.METEOSTANICA_PREGLED)}
                         >Meteostanice</NavDropdown.Item>
+
+                        <NavDropdown.Item
+                        onClick={()=>navigate(RouteNames.OPERATER_PREGLED)}
+                        >Korisnici</NavDropdown.Item>
                         </NavDropdown>
                     )}
                     <Nav.Link 

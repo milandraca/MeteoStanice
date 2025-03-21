@@ -20,7 +20,9 @@ export const RouteNames={
     METEOSTANICA_NOVI: '/meteostanica/dodaj',
     METEOSTANICA_PROMJENA: '/meteostanica/:sifra',
 
-    PODACI_VIZUALIZACIJA: '/podaci/vizualizacija'
+    PODACI_VIZUALIZACIJA: '/podaci/vizualizacija',
+
+    OPERATER_PREGLED: '/operater'
 }
 
 export const PRODUKCIJA='https://localhost:7132';

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public abstract class BackendController : ControllerBase
     {
 

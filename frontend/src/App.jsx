@@ -20,6 +20,7 @@ import MeteostanicaPromjena from './pages/meteostanice/MeteostanicaPromjena'
 import PodaciVizualizacija from './pages/podaci/PodaciVizualizacija'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
+import OperaterPregled from './pages/operateri/OperaterPregled'
 import { useEffect } from 'react'
 import { AuthService } from './services/AuthService'
 
@@ -58,6 +59,7 @@ function App() {
           <Route path={RouteNames.METEOSTANICA_NOVI} element={<MeteostanicaDodaj />} />
           <Route path={RouteNames.METEOSTANICA_PROMJENA} element={<MeteostanicaPromjena />} />
           <Route path={RouteNames.PODACI_VIZUALIZACIJA} element={<PodaciVizualizacija />} />
+          <Route path={RouteNames.OPERATER_PREGLED} element={<OperaterPregled />} />
         </Routes>
 
         <hr />

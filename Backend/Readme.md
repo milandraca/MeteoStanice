@@ -15,10 +15,16 @@
 - [Operater](#T-Backend-Models-Operater 'Backend.Models.Operater')
   - [Email](#P-Backend-Models-Operater-Email 'Backend.Models.Operater.Email')
   - [Lozinka](#P-Backend-Models-Operater-Lozinka 'Backend.Models.Operater.Lozinka')
+- [OperaterController](#T-Backend-Controllers-OperaterController 'Backend.Controllers.OperaterController')
+  - [Get()](#M-Backend-Controllers-OperaterController-Get 'Backend.Controllers.OperaterController.Get')
 - [OperaterDTO](#T-Backend-Models-DTO-OperaterDTO 'Backend.Models.DTO.OperaterDTO')
   - [#ctor(Email,Password)](#M-Backend-Models-DTO-OperaterDTO-#ctor-System-String,System-String- 'Backend.Models.DTO.OperaterDTO.#ctor(System.String,System.String)')
   - [Email](#P-Backend-Models-DTO-OperaterDTO-Email 'Backend.Models.DTO.OperaterDTO.Email')
   - [Password](#P-Backend-Models-DTO-OperaterDTO-Password 'Backend.Models.DTO.OperaterDTO.Password')
+- [OperaterDTORead](#T-Backend-Models-DTO-OperaterDTORead 'Backend.Models.DTO.OperaterDTORead')
+  - [#ctor(Sifra,Email)](#M-Backend-Models-DTO-OperaterDTORead-#ctor-System-Int32,System-String- 'Backend.Models.DTO.OperaterDTORead.#ctor(System.Int32,System.String)')
+  - [Email](#P-Backend-Models-DTO-OperaterDTORead-Email 'Backend.Models.DTO.OperaterDTORead.Email')
+  - [Sifra](#P-Backend-Models-DTO-OperaterDTORead-Sifra 'Backend.Models.DTO.OperaterDTORead.Sifra')
 
 <a name='T-Backend-Controllers-AutorizacijaController'></a>
 ## AutorizacijaController `type`
@@ -196,6 +202,32 @@ Email operatera.
 
 Lozinka operatera.
 
+<a name='T-Backend-Controllers-OperaterController'></a>
+## OperaterController `type`
+
+##### Namespace
+
+Backend.Controllers
+
+##### Summary
+
+Namijenjeno za CRUD operacije nad entitetom Operater
+
+<a name='M-Backend-Controllers-OperaterController-Get'></a>
+### Get() `method`
+
+##### Summary
+
+Dohvaća sve operatere iz baze
+
+##### Returns
+
+Operateri u bazi
+
+##### Parameters
+
+This method has no parameters.
+
 <a name='T-Backend-Models-DTO-OperaterDTO'></a>
 ## OperaterDTO `type`
 
@@ -240,3 +272,48 @@ DTO (Data Transfer Object) za operatera.
 ##### Summary
 
 
+
+<a name='T-Backend-Models-DTO-OperaterDTORead'></a>
+## OperaterDTORead `type`
+
+##### Namespace
+
+Backend.Models.DTO
+
+##### Summary
+
+DTO (Data Transfer Object) za čitanje operatera.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| Sifra | [T:Backend.Models.DTO.OperaterDTORead](#T-T-Backend-Models-DTO-OperaterDTORead 'T:Backend.Models.DTO.OperaterDTORead') | Šifra operatera |
+
+<a name='M-Backend-Models-DTO-OperaterDTORead-#ctor-System-Int32,System-String-'></a>
+### #ctor(Sifra,Email) `constructor`
+
+##### Summary
+
+DTO (Data Transfer Object) za čitanje operatera.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| Sifra | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Šifra operatera |
+| Email | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Email operatera |
+
+<a name='P-Backend-Models-DTO-OperaterDTORead-Email'></a>
+### Email `property`
+
+##### Summary
+
+Email operatera
+
+<a name='P-Backend-Models-DTO-OperaterDTORead-Sifra'></a>
+### Sifra `property`
+
+##### Summary
+
+Šifra operatera

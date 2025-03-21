@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿﻿using AutoMapper;
 using Backend.Models;
 using Backend.Models.DTO;
 
@@ -47,10 +47,10 @@ namespace Backend.Mapping
             CreateMap<PodatakDTOInsertUpdate, Podatak>();
             CreateMap<Podatak, PodatakDTOInsertUpdate>();
 
-
+            // Mapping for Operater
+            CreateMap<Operater, OperaterDTORead>();
 
 
         }
     }
 }
-
