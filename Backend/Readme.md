@@ -18,6 +18,7 @@
   - [Lozinka](#P-Backend-Models-Operater-Lozinka 'Backend.Models.Operater.Lozinka')
 - [OperaterController](#T-Backend-Controllers-OperaterController 'Backend.Controllers.OperaterController')
   - [Get()](#M-Backend-Controllers-OperaterController-Get 'Backend.Controllers.OperaterController.Get')
+  - [UpdateAdminStatus(sifra,adminStatus)](#M-Backend-Controllers-OperaterController-UpdateAdminStatus-System-Int32,System-Text-Json-JsonElement- 'Backend.Controllers.OperaterController.UpdateAdminStatus(System.Int32,System.Text.Json.JsonElement)')
 - [OperaterDTO](#T-Backend-Models-DTO-OperaterDTO 'Backend.Models.DTO.OperaterDTO')
   - [#ctor(Email,Password)](#M-Backend-Models-DTO-OperaterDTO-#ctor-System-String,System-String- 'Backend.Models.DTO.OperaterDTO.#ctor(System.String,System.String)')
   - [Email](#P-Backend-Models-DTO-OperaterDTO-Email 'Backend.Models.DTO.OperaterDTO.Email')
@@ -236,6 +237,24 @@ Operateri u bazi
 ##### Parameters
 
 This method has no parameters.
+
+<a name='M-Backend-Controllers-OperaterController-UpdateAdminStatus-System-Int32,System-Text-Json-JsonElement-'></a>
+### UpdateAdminStatus(sifra,adminStatus) `method`
+
+##### Summary
+
+Ažurira admin status operatera
+
+##### Returns
+
+Potvrda o uspješnosti
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sifra | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Šifra operatera |
+| adminStatus | [System.Text.Json.JsonElement](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Text.Json.JsonElement 'System.Text.Json.JsonElement') | Novi admin status (true/false) |
 
 <a name='T-Backend-Models-DTO-OperaterDTO'></a>
 ## OperaterDTO `type`

@@ -4,6 +4,7 @@ using Backend.Models;
 using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Backend.Controllers
 {
@@ -55,6 +56,60 @@ namespace Backend.Controllers
                 });
 
                 return Ok(vrati);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Ažurira admin status operatera
+        /// </summary>
+        /// <param name="sifra">Šifra operatera</param>
+        /// <param name="adminStatus">Novi admin status (true/false)</param>
+        /// <returns>Potvrda o uspješnosti</returns>
+        /// <response code="200">Sve je u redu</response>
+        /// <response code="400">Zahtjev nije valjan (BadRequest)</response> 
+        /// <response code="404">Operater nije pronađen</response> 
+        /// <response code="503">Na azure treba dodati IP u firewall</response> 
+        [HttpPut]
+        [Route("{sifra}/admin")]
+        public IActionResult UpdateAdminStatus(int sifra, [FromBody] JsonElement body)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var operater = _context.Operateri.Find(sifra);
+
+                if (operater == null)
+                {
+                    return NotFound($"Operater s šifrom {sifra} nije pronađen");
+                }
+
+                bool adminStatus = false; // Initialize with a default value
+                if (body.TryGetProperty("admin", out JsonElement adminElement))
+                {
+                    try
+                    {
+                        adminStatus = adminElement.GetBoolean();
+                        operater.Admin = adminStatus;
+                        _context.SaveChanges();
+                        return Ok(new { poruka = $"Admin status operatera {operater.Email} uspješno ažuriran" });
+                    }
+                    catch
+                    {
+                        return BadRequest("Neispravan format admin statusa. Očekivano: true/false");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Neispravan format zahtjeva. Očekivano: { \"admin\": true/false }");
+                }
             }
             catch (Exception ex)
             {
