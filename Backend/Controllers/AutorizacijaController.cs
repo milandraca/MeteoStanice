@@ -1,4 +1,5 @@
-﻿using Backend.Data;
+﻿﻿﻿﻿﻿﻿using Backend.Data;
+using Backend.Models;
 using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -22,6 +23,52 @@ namespace Backend.Controllers
         /// Kontekst baze podataka
         /// </summary>
         private readonly BackendContext _context = context;
+
+        /// <summary>
+        /// Registrira novog operatera.
+        /// </summary>
+        /// <param name="operater">DTO objekt koji sadrži email i lozinku operatera.</param>
+        /// <returns>Status 201 Created ako je registracija uspješna, inače vraća odgovarajući status greške.</returns>
+        /// <remarks>
+        /// Primjer zahtjeva:
+        /// <code lang="json">
+        /// {
+        ///   "email": "novi@korisnik.hr",
+        ///   "password": "lozinka123"
+        /// }
+        /// </code>
+        /// </remarks>
+        [HttpPost("register")]
+        public IActionResult Registracija(OperaterDTO operater)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Provjeri postoji li već operater s istim emailom
+            var postojeciOperater = _context.Operateri
+                .Where(p => p.Email!.Equals(operater.Email))
+                .FirstOrDefault();
+
+            if (postojeciOperater != null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, "Operater s tim emailom već postoji");
+            }
+
+            // Kreiraj novog operatera
+            var noviOperater = new Operater
+            {
+                Email = operater.Email,
+                // Hashiraj lozinku prije spremanja
+                Lozinka = BCrypt.Net.BCrypt.HashPassword(operater.Password)
+            };
+
+            _context.Operateri.Add(noviOperater);
+            _context.SaveChanges();
+
+            return StatusCode(StatusCodes.Status201Created, "Operater uspješno registriran");
+        }
 
         /// <summary>
         /// Generira token za autorizaciju.

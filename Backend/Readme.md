@@ -7,6 +7,7 @@
   - [#ctor(context)](#M-Backend-Controllers-AutorizacijaController-#ctor-Backend-Data-BackendContext- 'Backend.Controllers.AutorizacijaController.#ctor(Backend.Data.BackendContext)')
   - [_context](#F-Backend-Controllers-AutorizacijaController-_context 'Backend.Controllers.AutorizacijaController._context')
   - [GenerirajToken(operater)](#M-Backend-Controllers-AutorizacijaController-GenerirajToken-Backend-Models-DTO-OperaterDTO- 'Backend.Controllers.AutorizacijaController.GenerirajToken(Backend.Models.DTO.OperaterDTO)')
+  - [Registracija(operater)](#M-Backend-Controllers-AutorizacijaController-Registracija-Backend-Models-DTO-OperaterDTO- 'Backend.Controllers.AutorizacijaController.Registracija(Backend.Models.DTO.OperaterDTO)')
 - [BackendExtensions](#T-Backend-Extensions-BackendExtensions 'Backend.Extensions.BackendExtensions')
   - [AddBackendCORS(Services)](#M-Backend-Extensions-BackendExtensions-AddBackendCORS-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'Backend.Extensions.BackendExtensions.AddBackendCORS(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
   - [AddBackendSecurity(Services)](#M-Backend-Extensions-BackendExtensions-AddBackendSecurity-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'Backend.Extensions.BackendExtensions.AddBackendSecurity(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
@@ -89,6 +90,34 @@ Primjer zahtjeva:
 {
   "email": "edunova@edunova.hr",
   "password": "edunova"
+}
+```
+
+<a name='M-Backend-Controllers-AutorizacijaController-Registracija-Backend-Models-DTO-OperaterDTO-'></a>
+### Registracija(operater) `method`
+
+##### Summary
+
+Registrira novog operatera.
+
+##### Returns
+
+Status 201 Created ako je registracija uspješna, inače vraća odgovarajući status greške.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| operater | [Backend.Models.DTO.OperaterDTO](#T-Backend-Models-DTO-OperaterDTO 'Backend.Models.DTO.OperaterDTO') | DTO objekt koji sadrži email i lozinku operatera. |
+
+##### Remarks
+
+Primjer zahtjeva:
+
+```json
+{
+  "email": "novi@korisnik.hr",
+  "password": "lozinka123"
 }
 ```
 

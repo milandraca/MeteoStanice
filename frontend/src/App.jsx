@@ -18,10 +18,18 @@ import MeteostanicaPregled from './pages/meteostanice/MeteostanicaPregled'
 import MeteostanicaDodaj from './pages/meteostanice/MeteostanicaDodaj'
 import MeteostanicaPromjena from './pages/meteostanice/MeteostanicaPromjena'
 import PodaciVizualizacija from './pages/podaci/PodaciVizualizacija'
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register'
+import { useEffect } from 'react'
+import { AuthService } from './services/AuthService'
 
 
 
 function App() {
+  // Initialize authentication state when the app loads
+  useEffect(() => {
+    AuthService.initAuth();
+  }, []);
 
   return (
     <>
@@ -30,6 +38,9 @@ function App() {
         
         <Routes>
           <Route path={RouteNames.HOME} element={<Pocetna />} />
+          <Route path={RouteNames.LOGIN} element={<Login />} />
+          <Route path={RouteNames.REGISTER} element={<Register />} />
+          
           <Route path={RouteNames.DRZAVA_PREGLED} element={<DrzavePregled />} />
           <Route path={RouteNames.DRZAVA_NOVI} element={<DrzaveDodaj />} />
           <Route path={RouteNames.DRZAVA_PROMJENA} element={<DrzavePromjena />} />

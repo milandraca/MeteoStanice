@@ -1,6 +1,9 @@
 export const RouteNames={
     HOME: '/',
 
+    LOGIN: '/login',
+    REGISTER: '/register',
+
     DRZAVA_PREGLED: '/drzava',
     DRZAVA_NOVI: '/drzava/dodaj',
     DRZAVA_PROMJENA: '/drzava/:sifra',
