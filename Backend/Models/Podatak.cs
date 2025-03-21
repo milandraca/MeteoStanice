@@ -7,7 +7,7 @@ namespace Backend.Models
         
         
         public DateTime Vrijeme { get; set; }
-        public int? BrzinaVjetra { get; set; }
+        public decimal? BrzinaVjetra { get; set; }
         public decimal? Temperatura { get; set; }
         public decimal? RelativnaVlaga { get; set; }
         public decimal? KolicinaPadalina { get; set; }

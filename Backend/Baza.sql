@@ -52,7 +52,7 @@ create table podaci(
 sifra int not null identity(1,1) ,
 meteostanica_sifra int not null references meteostanice(sifra),
 vrijeme datetime not null,
-brzinavjetra int,
+brzinavjetra decimal(4,1),
 temperatura decimal(3,1) ,
 relativnavlaga decimal(4,2),
 kolicinapadalina decimal(4,2)
@@ -95,6 +95,21 @@ AS
 BEGIN
     UPDATE podaci
     SET temperatura = inserted.temperatura / 10.0
+    FROM podaci
+    INNER JOIN inserted ON podaci.sifra = inserted.sifra;
+END;
+GO
+
+update podaci set brzinavjetra=brzinavjetra/10;
+GO
+
+CREATE TRIGGER DijeliBrzinuVjetra
+ON podaci
+AFTER INSERT
+AS
+BEGIN
+    UPDATE podaci
+    SET brzinavjetra = inserted.brzinavjetra / 10.0
     FROM podaci
     INNER JOIN inserted ON podaci.sifra = inserted.sifra;
 END;

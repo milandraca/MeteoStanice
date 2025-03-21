@@ -4,7 +4,7 @@
         int Sifra,
         DateTime Vrijeme,
         decimal? Temperatura,
-        int? BrzinaVjetra,
+        decimal? BrzinaVjetra,
         decimal? RelativnaVlaga,
         decimal? KolicinaPadalina,
         string  MeteostanicaNaziv
