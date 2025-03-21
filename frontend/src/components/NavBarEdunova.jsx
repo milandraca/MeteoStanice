@@ -47,23 +47,25 @@ export default function NavBarEdunova(){
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <NavDropdown title="Control Panel" id="basic-nav-dropdown">
+                    {isAuthenticated && (
+                        <NavDropdown title="Control Panel" id="basic-nav-dropdown">
+                            <NavDropdown.Item
+                            onClick={()=>navigate(RouteNames.DRZAVA_PREGLED)}
+                        >Države</NavDropdown.Item>
+
                         <NavDropdown.Item
-                        onClick={()=>navigate(RouteNames.DRZAVA_PREGLED)}
-                    >Države</NavDropdown.Item>
+                        onClick={()=>navigate(RouteNames.REGIJA_PREGLED)}
+                        >Regije</NavDropdown.Item>
 
-                    <NavDropdown.Item
-                    onClick={()=>navigate(RouteNames.REGIJA_PREGLED)}
-                    >Regije</NavDropdown.Item>
+                        <NavDropdown.Item
+                        onClick={()=>navigate(RouteNames.MJESTO_PREGLED)}
+                        >Mjesta</NavDropdown.Item>
 
-                    <NavDropdown.Item
-                    onClick={()=>navigate(RouteNames.MJESTO_PREGLED)}
-                    >Mjesta</NavDropdown.Item>
-
-                    <NavDropdown.Item
-                    onClick={()=>navigate(RouteNames.METEOSTANICA_PREGLED)}
-                    >Meteostanice</NavDropdown.Item>
-                    </NavDropdown>
+                        <NavDropdown.Item
+                        onClick={()=>navigate(RouteNames.METEOSTANICA_PREGLED)}
+                        >Meteostanice</NavDropdown.Item>
+                        </NavDropdown>
+                    )}
                     <Nav.Link 
                         onClick={()=>navigate(RouteNames.PODACI_VIZUALIZACIJA)}
                         >Vizualizacija</Nav.Link>

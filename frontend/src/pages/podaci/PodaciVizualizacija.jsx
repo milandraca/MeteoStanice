@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button, ButtonGroup } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { Container, Row, Col, Form, Button, ButtonGroup, Alert } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Line, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -15,6 +15,8 @@ import {
 } from 'chart.js';
 import PodatakService from '../../services/PodatakService';
 import MeteostanicaService from '../../services/MeteostanicaService';
+import { AuthService } from '../../services/AuthService';
+import { RouteNames } from '../../constants';
 
 ChartJS.register(
   CategoryScale,
@@ -49,26 +51,56 @@ export default function PodaciVizualizacija() {
   const [odabraneStanice, setOdabraneStanice] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState('24h');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check authentication status when component mounts
+  useEffect(() => {
+    const checkAuth = () => {
+      const isAuth = AuthService.isAuthenticated();
+      setIsAuthenticated(isAuth);
+      
+      // If not authenticated, clear any data
+      if (!isAuth) {
+        setPodaciPoStanicama({});
+        setMeteostanice([]);
+        setOdabraneStanice([]);
+      }
+    };
+    
+    // Check initially
+    checkAuth();
+    
+    // Set up event listener for storage changes (for when user logs in/out in another tab)
+    window.addEventListener('storage', checkAuth);
+    
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+    };
+  }, []);
   
   useEffect(() => {
     const dohvatiMeteostanice = async () => {
-      const response = await MeteostanicaService.get();
-      if (!response.greska) {
-        setMeteostanice(response.poruka);
-        // Ako je proslijeđena stanica kroz navigaciju, odaberi je
-        if (location.state?.selectedStanica) {
-          setOdabraneStanice([location.state.selectedStanica]);
+      // Only fetch data if user is authenticated
+      if (AuthService.isAuthenticated()) {
+        const response = await MeteostanicaService.get();
+        if (!response.greska) {
+          setMeteostanice(response.poruka);
+          // Ako je proslijeđena stanica kroz navigaciju, odaberi je
+          if (location.state?.selectedStanica) {
+            setOdabraneStanice([location.state.selectedStanica]);
+          }
         }
       }
     };
     dohvatiMeteostanice();
-  }, [location.state?.selectedStanica]);
+  }, [location.state?.selectedStanica, isAuthenticated]);
 
   useEffect(() => {
     const dohvatiPodatke = async () => {
-      if (odabraneStanice.length === 0) {
+      if (odabraneStanice.length === 0 || !isAuthenticated) {
         setPodaciPoStanicama({});
         setLoading(false);
         return;
@@ -93,7 +125,7 @@ export default function PodaciVizualizacija() {
     };
     
     dohvatiPodatke();
-  }, [odabraneStanice]);
+  }, [odabraneStanice, isAuthenticated]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -197,6 +229,30 @@ export default function PodaciVizualizacija() {
 
   if (loading) {
     return <div>Učitavanje podataka...</div>;
+  }
+
+  // If not authenticated, show message and redirect button
+  if (!isAuthenticated) {
+    return (
+      <Container fluid>
+        <h2 className="mb-4">Vizualizacija meteoroloških podataka</h2>
+        <Alert variant="warning">
+          <Alert.Heading>Potrebna prijava</Alert.Heading>
+          <p>
+            Za pristup vizualizaciji meteoroloških podataka potrebno je prijaviti se.
+          </p>
+          <hr />
+          <div className="d-flex justify-content-end">
+            <Button 
+              onClick={() => navigate(RouteNames.LOGIN)} 
+              variant="outline-primary"
+            >
+              Prijava
+            </Button>
+          </div>
+        </Alert>
+      </Container>
+    );
   }
 
   return (

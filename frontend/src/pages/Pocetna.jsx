@@ -1,9 +1,10 @@
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MeteostanicaService from '../services/MeteostanicaService';
 import { GOOGLE_MAPS_API } from '../constants';
+import { AuthService } from '../services/AuthService';
 
 const mapContainerStyle = {
   width: '100%',
@@ -34,6 +35,7 @@ export default function Pocetna() {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedStation, setSelectedStation] = useState(null);
     const [isInfoWindowHovered, setIsInfoWindowHovered] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     let mouseOutTimer = null;
 
     const handleMarkerClick = (stanica) => {
@@ -70,14 +72,39 @@ export default function Pocetna() {
     };
 
     useEffect(() => {
+        // Check authentication status
+        setIsAuthenticated(AuthService.isAuthenticated());
+        
         const dohvatiMeteostanice = async () => {
-            const response = await MeteostanicaService.get();
-            if (!response.greska) {
-                setMeteostanice(response.poruka);
+            // Only fetch meteo stations if user is authenticated
+            if (AuthService.isAuthenticated()) {
+                const response = await MeteostanicaService.get();
+                if (!response.greska) {
+                    setMeteostanice(response.poruka);
+                }
             }
             setIsLoading(false);
         };
         dohvatiMeteostanice();
+        
+        // Listen for authentication changes
+        const handleStorageChange = () => {
+            const isAuth = AuthService.isAuthenticated();
+            setIsAuthenticated(isAuth);
+            
+            // If user logs in, fetch meteo stations
+            if (isAuth && meteostanice.length === 0) {
+                dohvatiMeteostanice();
+            } else if (!isAuth) {
+                // If user logs out, clear meteo stations
+                setMeteostanice([]);
+            }
+        };
+        
+        window.addEventListener('storage', handleStorageChange);
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     const { isLoaded, loadError } = useJsApiLoader(GOOGLE_MAPS_API);
@@ -105,6 +132,13 @@ export default function Pocetna() {
             <Row className="mb-4">
                 <Col>
                     <h1 className="text-center mb-4">Meteo stanice</h1>
+                    
+                    {!isAuthenticated && (
+                        <Alert variant="info" className="mb-4">
+                            Prijavite se da biste vidjeli meteo stanice na karti.
+                        </Alert>
+                    )}
+                    
                     <div className="map-container">
                         <GoogleMap
                             mapContainerStyle={mapContainerStyle}
@@ -114,7 +148,7 @@ export default function Pocetna() {
                             onLoad={onLoad}
                             onUnmount={onUnmount}
                         >
-                            {meteostanice.map((stanica, index) => (
+                            {isAuthenticated && meteostanice.map((stanica, index) => (
                                 <Marker
                                     key={stanica.sifra}
                                     position={{
@@ -131,7 +165,7 @@ export default function Pocetna() {
                                     //onMouseOut={handleMarkerMouseOut}
                                 />
                             ))}
-                            {selectedStation && (
+                            {isAuthenticated && selectedStation && (
                                 <InfoWindow
                                     position={{
                                         lat: parseFloat(selectedStation.latitude),
