@@ -85,32 +85,23 @@ values
 
 -- select * from meteostanice;
 
-update podaci set temperatura=temperatura/10;
+drop trigger PrilagodiPodatke;
 GO
 
-CREATE TRIGGER DijeliTemperaturu
+CREATE TRIGGER PrilagodiPodatke
 ON podaci
 AFTER INSERT
 AS
 BEGIN
     UPDATE podaci
-    SET temperatura = inserted.temperatura / 10.0
+    SET temperatura = inserted.temperatura / 10.0,
+    brzinavjetra = inserted.brzinavjetra / 10.0
     FROM podaci
     INNER JOIN inserted ON podaci.sifra = inserted.sifra;
 END;
 GO
 
-update podaci set brzinavjetra=brzinavjetra/10;
+
+update podaci set brzinavjetra=brzinavjetra/10, temperatura=temperatura/10;
 GO
 
-CREATE TRIGGER DijeliBrzinuVjetra
-ON podaci
-AFTER INSERT
-AS
-BEGIN
-    UPDATE podaci
-    SET brzinavjetra = inserted.brzinavjetra / 10.0
-    FROM podaci
-    INNER JOIN inserted ON podaci.sifra = inserted.sifra;
-END;
-GO
